@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅行プラン詳細</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #4A90E2;
+        }
+        .delete-button {
+            position: fixed;
+            right: 20px;
+            top: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #4A90E2;
+            color: white;
+        }
+        button {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #357ABD;
+        }
+        form {
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<h1>旅行プラン詳細</h1>
+
+<div class="delete-button">
+    <form th:action="@{/plans/delete/{id}(id=${plan.id})}" method="post" onsubmit="return confirm('本当に削除しますか？');">
+        <button type="submit">旅行プランを削除</button>
+    </form>
+</div>
+
+<table>
+    <tr>
+        <td style="width:66%; vertical-align:top;">
+            <h2 th:text="${plan.title}"></h2>
+            <p><strong th:text="${plan.titleDetail}"></strong></p>
+
+            <table>
+                <tr>
+                    <td style="width:50%">
+                        <h3>基本情報</h3>
+                        <p><strong>開始日:</strong> <span th:text="${#temporals.format(plan.startDate, 'yyyy-MM-dd')}"></span></p>
+                        <p><strong>終了日:</strong> <span th:text="${#temporals.format(plan.endDate, 'yyyy-MM-dd')}"></span></p>
+                    </td>
+                    <td style="width:50%">
+                        <h3>目的地</h3>
+                        <ol>
+                            <li th:text="${plan.destination1}"></li>
+                            <li th:if="${plan.destination2}" th:text="${plan.destination2}"></li>
+                            <li th:if="${plan.destination3}" th:text="${plan.destination3}"></li>
+                        </ol>
+                    </td>
+                </tr>
+            </table>
+
+            <div style="margin-top: 10px;">
+                <a th:href="@{/plans/edit/{id}(id=${plan.id})}">
+                    <button>観光プランを編集</button>
+                </a>
+            </div>
+
+            <h3>スケジュール</h3>
+            <table>
+                <tr>
+                    <th>イベント</th>
+                    <th>時間</th>
+                    <th>メモ</th>
+                    <th>操作</th>
+                </tr>
+                <tr th:each="schedule : ${plan.schedules}">
+                    <td th:text="${schedule.event}"></td>
+                    <td th:text="${#temporals.format(schedule.scheduleTime, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td th:text="${schedule.memo}"></td>
+                    <td>
+                        <a th:href="@{/schedules/edit/{id}(id=${schedule.id})}"><button>編集</button></a>
+                    </td>
+                </tr>
+            </table>
+
+            <div style="margin-top: 10px;">
+                <a th:href="@{/schedules/entry/{id}(id=${plan.id})}">
+                    <button>スケジュールを新規作成</button>
+                </a>
+            </div>
+
+        </td>
+
+        <td style="width:34%; vertical-align:top;">
+            <h3>持ち物リスト</h3>
+            <table style="width:100%">
+                <tr>
+                    <th>アイテム</th>
+                    <th>数量</th>
+                    <th>チェック</th>
+                    <th>操作</th>
+                </tr>
+
+                <!-- アイテム行にデータ属性を追加 -->
+                <tr class="item-row" th:each="item : ${plan.items}">
+                    <td th:text="${item.name}"></td>
+                    <td th:text="${item.quantity}"></td>
+                    <td>
+                        <form th:action="@{/items/check/{id}(id=${item.id})}" method="post" style="display:inline;">
+                            <input type="checkbox" th:checked="${item.checked}" onchange="this.form.submit()">
+                        </form>
+                    </td>
+                    <td>
+                        <form th:action="@{/items/delete/{id}(id=${item.id})}" method="post" style="display:inline;">
+                            <button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
+                        </form>
+                    </td>
+                </tr>
+
+            </table>
+
+            <!-- 持ち物リストのクイック追加フォーム -->
+            <form th:action="@{/items/create}" method="post" style="margin-top: 10px;">
+                <input type="hidden" name="planId" th:value="${plan.id}">
+                <input type="text" name="name" placeholder="アイテム名" required />
+                <input type="number" name="quantity" placeholder="数量" required />
+                <button type="submit">追加</button>
+            </form>
+
+            <h3>TODOリスト</h3>
+            <table style="width:100%">
+                <tr>
+                    <th>タスク</th>
+                    <th>完了状況</th>
+                    <th>操作</th>
+                </tr>
+
+                <!-- TODOリスト -->
+                <tr th:each="todo : ${plan.todos}">
+                    <td th:text="${todo.task}"></td>
+
+                    <!-- 完了状態を切り替えるフォーム -->
+                    <td><form th:action="@{/todos/toggleComplete/{id}(id=${todo.id})}" method="post" style="display:inline;">
+                            <!-- チェックボックス -->
+                            <input type="checkbox" th:checked="${todo.completed}" onchange="this.form.submit()">
+                            <!-- 状態表示 -->
+                            (<span th:text="${todo.completed ? '完了' : '未完了'}"></span>)
+                        </form></td>
+
+                    <!-- 編集と削除ボタン -->
+                    <td style="white-space: nowrap;">
+                        <!-- 編集ボタン -->
+                        <a th:href="@{/todos/edit/{id}(id=${todo.id})}">
+                            <button>編集</button></a>
+
+                        <!-- 削除ボタン -->
+                        <form th:action="@{/todos/delete/{id}(id=${todo.id})}" method="post" style="display:inline;">
+                            <!-- 確認ダイアログ -->
+                            <button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button></form></td>
+
+                </tr>
+
+            </table>
+
+            <!-- TODOリストのクイック追加フォーム -->
+            <form th:action="@{/todos/quickAdd}" method="post" style="margin-top: 10px;">
+                <!-- プランIDを隠しフィールドとして送信 -->
+                <input type="hidden" name="planId" th:value="${plan.id}">
+                <!-- タスク入力フィールド -->
+                <input type="text" name="task" placeholder="タスク" required />
+                <!-- 追加ボタン -->
+                <button type="submit">追加</button></form>
+
+        </td>
+
+    </tr>
+
+</table>
+
+<!-- ホームに戻るリンク -->
+<div style="margin-top: 20px;">
+    <!-- ホームに戻るボタン -->
+    <a href="/plans/home">
+        <button>ホームに戻る</button></a
+    >
+</div>
+
+</body>
+
+</html>

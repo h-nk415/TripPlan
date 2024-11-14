@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.repository.ScheduleMapper">
+
+    <!-- resultMapの定義 -->
+    <resultMap id="scheduleResultMap" type="com.example.demo.entity.Schedule">
+        <id property="id" column="id" />
+        <result property="scheduleTime" column="schedule_time" />
+        <result property="event" column="event" />
+        <result property="memo" column="memo" />
+        <result property="url" column="url" />
+        <association property="plan" column="plan_id" javaType="com.example.demo.entity.Plan"
+                      select="com.example.demo.repository.PlanMapper.selectPlanById" />
+    </resultMap>
+
+    <!-- 新しいスケジュールを挿入するSQL文 -->
+    <insert id="insertSchedule" parameterType="com.example.demo.entity.Schedule">
+        INSERT INTO schedule (schedule_time, event, memo, url, plan_id)
+        VALUES (#{scheduleTime}, #{event}, #{memo}, #{url}, #{plan.id})
+    </insert>
+
+    <!-- 指定されたIDのスケジュールを取得するSQL文 -->
+    <select id="selectScheduleById" parameterType="int" resultMap="scheduleResultMap">
+        SELECT * FROM schedule WHERE id = #{id}
+    </select>
+
+    <!-- 指定された旅行プランIDに関連するスケジュールを取得するSQL文 -->
+    <select id="selectSchedulesByPlanId" parameterType="int" resultMap="scheduleResultMap">
+        SELECT s.*, p.* 
+        FROM Schedule s
+        LEFT JOIN Plan p ON s.plan_id = p.id
+        WHERE s.plan_id = #{planId}
+    </select>
+
+    <!-- 指定されたスケジュールの情報を更新するSQL文 -->
+    <update id="updateSchedule" parameterType="com.example.demo.entity.Schedule">
+        UPDATE schedule
+        SET schedule_time = #{scheduleTime},
+            event = #{event},
+            memo = #{memo},
+            url = #{url},
+            plan_id = #{plan.id}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 指定されたIDのスケジュールを削除するSQL文 -->
+    <delete id="deleteScheduleById" parameterType="int">
+        DELETE FROM Schedule WHERE id = #{id}
+    </delete>
+
+</mapper>

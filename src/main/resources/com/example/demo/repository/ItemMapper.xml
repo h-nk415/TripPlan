@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.repository.ItemMapper">
+
+    <!-- resultMapの定義 -->
+    <resultMap id="itemResultMap" type="com.example.demo.entity.Item">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="quantity" column="quantity" />
+        <result property="checked" column="checked" />
+         
+        <association property="plan" column="plan_id"
+                      javaType="com.example.demo.entity.Plan"
+                      select="com.example.demo.repository.PlanMapper.selectPlanById" />
+    </resultMap>
+
+    <!-- 新しいアイテムを挿入するSQL文 -->
+    <insert id="insertItem" parameterType="com.example.demo.entity.Item">
+        INSERT INTO Item (name, quantity, checked, plan_id)
+        VALUES (#{name}, #{quantity}, #{checked}, #{plan.id})
+    </insert>
+
+    <!-- 指定されたIDのアイテムを取得するSQL文 -->
+    <select id="selectItemById" parameterType="int" resultMap="itemResultMap">
+        SELECT * FROM Item WHERE id = #{id}
+    </select>
+
+    <!-- 指定されたアイテムの情報を更新するSQL文 -->
+    <update id="updateItem" parameterType="com.example.demo.entity.Item">
+        UPDATE Item
+        SET checked = #{checked}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 指定されたIDのアイテムを削除するSQL文 -->
+    <delete id="deleteItemById" parameterType="int">
+        DELETE FROM Item WHERE id = #{id}
+    </delete>
+
+    <!-- 指定された旅行プランIDに関連するアイテムを取得するSQL文 -->
+    <select id="selectItemsByPlanId" parameterType="int" resultMap="itemResultMap">
+        SELECT i.*, p.*
+        FROM Item i
+        LEFT JOIN Plan p ON i.plan_id = p.id
+        WHERE i.plan_id = #{planId}
+    </select>
+
+</mapper>

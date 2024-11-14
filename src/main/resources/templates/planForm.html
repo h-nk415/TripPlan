@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅行プラン作成</title>
+</head>
+<body>
+    <h1>旅行プラン作成</h1>
+
+    <form action="/plans/create" method="post">
+        <!-- title -->
+        <div>
+            <label for="title">タイトル:</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+
+        <!-- titleDetail -->
+        <div>
+            <label for="titleDetail">詳細:</label>
+            <textarea id="titleDetail" name="titleDetail" required></textarea>
+        </div>
+
+        <!-- startDate -->
+        <div>
+            <label for="startDate">開始日:</label>
+            <input type="date" id="startDate" name="startDate" required>
+        </div>
+
+        <!-- endDate -->
+        <div>
+            <label for="endDate">終了日:</label>
+            <input type="date" id="endDate" name="endDate" required>
+        </div>
+
+        <!-- destination1 -->
+        <div>
+            <label for="destination1">行き先1:</label>
+            <input type="text" id="destination1" name="destination1" required>
+        </div>
+
+        <!-- destination2 -->
+        <div>
+            <label for="destination2">行き先2:</label>
+            <input type="text" id="destination2" name="destination2">
+        </div>
+
+        <!-- destination3 -->
+        <div>
+            <label for="destination3">行き先3:</label>
+            <input type="text" id="destination3" name="destination3">
+        </div>
+
+        <!-- Submit Button -->
+        <div>
+            <button type="submit">プランを作成</button>
+        </div>
+    </form>
+
+    <a href="/plans/home">ホームに戻る</a>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>スケジュール登録</title>
+</head>
+<body>
+    <h1>スケジュール登録</h1>
+
+    <form th:action="@{/schedules/create}" method="post" enctype="multipart/form-data" th:object="${scheduleForm}">
+		<input type="hidden" th:field="*{plan.id}">
+
+        <div>
+            <label for="scheduleTime">時間:</label>
+            <input type="datetime-local" id="scheduleTime" th:field="*{scheduleTime}" required>
+            <span th:if="${#fields.hasErrors('scheduleTime')}" th:errors="*{scheduleTime}"></span>
+        </div>
+
+        <div>
+            <label for="event">予定内容:</label>
+            <input type="text" id="event" th:field="*{event}" required>
+            <span th:if="${#fields.hasErrors('event')}" th:errors="*{event}"></span>
+        </div>
+
+        <div>
+            <label for="memo">メモ:</label>
+            <textarea id="memo" th:field="*{memo}"></textarea>
+        </div>
+
+        <div>
+            <label for="url">関連URL:</label>
+            <input type="url" id="url" th:field="*{url}">
+        </div>
+
+
+        <button type="submit">保存</button>
+    </form>
+
+	<!-- 戻るボタン -->
+	    <button type="button" onclick="window.history.back();">戻る</button>
+
+</body>
+</html>

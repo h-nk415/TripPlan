@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プラン一覧</title>
+</head>
+<body>
+    <h1>プラン一覧</h1>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>プラン名</th>
+                <th>詳細</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- プランの一覧を表示 -->
+            <th:block th:each="plan : ${plans}">
+                <tr>
+                    <td th:text="${plan.title}"></td>
+                    <td><a th:href="@{/plans/{id}(id=${plan.id})}">詳細を見る</a></td>
+                </tr>
+            </th:block>
+        </tbody>
+    </table>
+
+    <br>
+    <a href="/plans/entry">新しいプランを作成</a>
+</body>
+</html>

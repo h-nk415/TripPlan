@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅行プラン編集</title>
+</head>
+<body>
+    <h1>旅行プラン編集</h1>
+
+    <!-- actionを修正して、idをURLパラメータとして渡す -->
+    <form th:action="@{'/plans/update/' + ${planForm.id}}" method="post">
+        <!-- hiddenフィールドでidを送信 -->
+        <input type="hidden" name="id" th:value="${planForm.id}" />
+
+        <!-- タイトル -->
+        <div>
+            <label for="title">タイトル:</label>
+            <input type="text" id="title" name="title" th:value="${planForm.title}" required>
+        </div>
+
+        <!-- 詳細 -->
+        <div>
+            <label for="titleDetail">詳細:</label>
+            <textarea id="titleDetail" name="titleDetail" required th:text="${planForm.titleDetail}"></textarea>
+        </div>
+
+        <!-- 開始日 -->
+        <div>
+            <label for="startDate">開始日:</label>
+            <input type="date" id="startDate" name="startDate" th:value="${planForm.startDate}" required>
+        </div>
+
+        <!-- 終了日 -->
+        <div>
+            <label for="endDate">終了日:</label>
+            <input type="date" id="endDate" name="endDate" th:value="${planForm.endDate}" required>
+        </div>
+
+        <!-- 行き先1 -->
+        <div>
+            <label for="destination1">行き先1:</label>
+            <input type="text" id="destination1" name="destination1" th:value="${planForm.destination1}" required>
+        </div>
+
+        <!-- 行き先2 -->
+        <div>
+            <label for="destination2">行き先2:</label>
+            <input type="text" id="destination2" name="destination2" th:value="${planForm.destination2}">
+        </div>
+
+        <!-- 行き先3 -->
+        <div>
+            <label for="destination3">行き先3:</label>
+            <input type="text" id="destination3" name="destination3" th:value="${planForm.destination3}">
+        </div>
+
+        <!-- 送信ボタン -->
+        <div>
+            <button type="submit">プランを編集</button>
+        </div>
+    </form>
+
+    <a href="/plans/home">ホームに戻る</a>
+</body>
+</html>
