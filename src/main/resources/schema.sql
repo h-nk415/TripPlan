@@ -39,6 +39,6 @@ CREATE TABLE todo (
     id SERIAL PRIMARY KEY,                        -- TodoアイテムのID（主キー）
     task VARCHAR(255) NOT NULL,                    -- Todoアイテムの内容
     completed BOOLEAN NOT NULL,                    -- Todoアイテムが完了したかどうか
-    plan_id INTEGER REFERENCES plan(id),          -- 外部キー制約
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- 作成日時（自動設定）
+    plan_id INTEGER REFERENCES plan(id)          -- 外部キー制約
+    
 );

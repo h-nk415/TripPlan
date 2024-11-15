@@ -54,6 +54,7 @@
         LEFT JOIN item i ON p.id = i.plan_id
         LEFT JOIN todo t ON p.id = t.plan_id
         WHERE p.id = #{id}
+        ORDER BY i.id, t.id, s.schedule_time;
     </select>
 
     <!-- その他のSQL文はそのまま -->

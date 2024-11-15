@@ -34,5 +34,5 @@ public class Todo {
     /** 
      * このTodoアイテムが関連する旅行プラン（外部キー）
      */
-    private Plan planId;  // Planエンティティへの参照
+    private Plan plan;  // Planエンティティへの参照
 }

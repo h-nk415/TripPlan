@@ -22,9 +22,9 @@ VALUES
     ('モバイルバッテリー', 1, FALSE, 1);
 
 -- todoテーブルにダミーデータを挿入
-INSERT INTO todo (task, completed, plan_id, created_at)
+INSERT INTO todo (task, completed, plan_id)
 VALUES
-    ('ホテルの予約', FALSE, 1, CURRENT_TIMESTAMP),
-    ('飛行機のチケット確認', TRUE, 1, CURRENT_TIMESTAMP),
-    ('レンタカーの手配', FALSE, 2, CURRENT_TIMESTAMP),
-    ('スキー用具の確認', FALSE, 3, CURRENT_TIMESTAMP);
+    ('ホテルの予約', FALSE, 1),
+    ('飛行機のチケット確認', TRUE, 1),
+    ('レンタカーの手配', FALSE, 2),
+    ('スキー用具の確認', FALSE, 3);

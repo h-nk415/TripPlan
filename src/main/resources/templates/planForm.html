@@ -4,59 +4,163 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>旅行プラン作成</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #4A90E2;
+            text-align: center;
+        }
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        div {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="date"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        textarea {
+            resize: vertical;
+        }
+        button {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #357ABD;
+        }
+        .error {
+            color: #E74C3C;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
-    <h1>旅行プラン作成</h1>
 
-    <form action="/plans/create" method="post">
-        <!-- title -->
-        <div>
-            <label for="title">タイトル:</label>
-            <input type="text" id="title" name="title" required>
-        </div>
+<h1>旅行プラン作成</h1>
 
-        <!-- titleDetail -->
-        <div>
-            <label for="titleDetail">詳細:</label>
-            <textarea id="titleDetail" name="titleDetail" required></textarea>
-        </div>
+<form th:action="@{/plans/create}" method="post" th:object="${planForm}">
+    <!-- title -->
+    <div>
+        <label for="title">タイトル:</label>
+        <input type="text" id="title" th:field="*{title}" required>
+        <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error"></span>
+    </div>
 
-        <!-- startDate -->
-        <div>
-            <label for="startDate">開始日:</label>
-            <input type="date" id="startDate" name="startDate" required>
-        </div>
+    <!-- titleDetail -->
+    <div>
+        <label for="titleDetail">詳細:</label>
+        <textarea id="titleDetail" th:field="*{titleDetail}" required></textarea>
+        <span th:if="${#fields.hasErrors('titleDetail')}" th:errors="*{titleDetail}" class="error"></span>
+    </div>
 
-        <!-- endDate -->
-        <div>
-            <label for="endDate">終了日:</label>
-            <input type="date" id="endDate" name="endDate" required>
-        </div>
+    <!-- startDate -->
+    <div>
+        <label for="startDate">開始日:</label>
+        <input type="date" id="startDate" th:field="*{startDate}" required>
+        <span th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" class="error"></span>
+    </div>
 
-        <!-- destination1 -->
-        <div>
-            <label for="destination1">行き先1:</label>
-            <input type="text" id="destination1" name="destination1" required>
-        </div>
+    <!-- endDate -->
+    <div>
+        <label for="endDate">終了日:</label>
+        <input type="date" id="endDate" th:field="*{endDate}" required>
+        <span th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}" class="error"></span>
+    </div>
 
-        <!-- destination2 -->
-        <div>
-            <label for="destination2">行き先2:</label>
-            <input type="text" id="destination2" name="destination2">
-        </div>
+	<!-- destination1 -->
+	<div>
+	    <label for="destination1">行き先1:</label>
+	    <select id="destination1" th:field="*{destination1}" required>
+	        <option value="">選択してください</option>
+	    </select>
+	    <span th:if="${#fields.hasErrors('destination1')}" th:errors="*{destination1}" class="error"></span>
+	</div>
+	
+	<!-- destination2 -->
+	<div>
+	    <label for="destination2">行き先2 (任意):</label>
+	    <select id="destination2" th:field="*{destination2}">
+	        <option value="">選択してください</option>
+	    </select>
+	    <span th:if="${#fields.hasErrors('destination2')}" th:errors="*{destination2}" class="error"></span>
+	</div>
+	
+	<!-- destination3 -->
+	<div>
+	    <label for="destination3">行き先3 (任意):</label>
+	    <select id="destination3" th:field="*{destination3}">
+	        <option value="">選択してください</option>
+	    </select>
+	    <span th:if="${#fields.hasErrors('destination3')}" th:errors="*{destination3}" class="error"></span>
+	</div>
+	
+	<!-- 全体のエラーメッセージ -->
+	<div th:if="${#fields.hasErrors('global')}" class="error">
+	    <p th:each="err : ${#fields.errors('global')}" th:text="${err}"></p>
+	</div>
 
-        <!-- destination3 -->
-        <div>
-            <label for="destination3">行き先3:</label>
-            <input type="text" id="destination3" name="destination3">
-        </div>
+    <!-- Submit Button -->
+    <div>
+        <button type="submit">プランを作成</button>
+    </div>
+</form>
 
-        <!-- Submit Button -->
-        <div>
-            <button type="submit">プランを作成</button>
-        </div>
-    </form>
+<a href="/plans/home">ホームに戻る</a>
 
-    <a href="/plans/home">ホームに戻る</a>
+<script>
+    const prefectures = [
+        "北海道", "青森", "岩手", "宮城", "秋田", "山形", "福島", "東京", "神奈川", "千葉",
+        "埼玉", "茨城", "栃木", "群馬", "新潟", "富山", "石川", "福井", "山梨", "長野", "岐阜",
+        "静岡", "愛知", "三重", "滋賀", "京都", "大阪", "兵庫", "奈良", "和歌山", "鳥取",
+        "島根", "岡山", "広島", "山口", "徳島", "香川", "愛媛", "高知", "福岡", "佐賀",
+        "長崎", "熊本", "大分", "宮崎", "鹿児島", "沖縄"
+    ];
+
+    function populateSelect(id) {
+        const select = document.getElementById(id);
+        prefectures.forEach(prefecture => {
+            const option = document.createElement("option");
+            option.value = prefecture;
+            option.textContent = prefecture;
+            select.appendChild(option);
+        });
+    }
+
+    populateSelect("destination1");
+    populateSelect("destination2");
+    populateSelect("destination3");
+</script>
+
 </body>
 </html>

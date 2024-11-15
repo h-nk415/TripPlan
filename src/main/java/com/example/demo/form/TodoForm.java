@@ -29,5 +29,5 @@ public class TodoForm {
     /** 
      * このTodoが関連する旅行プランのID
      */
-    private Plan planId;  // 外部キーとしてPlanのIDを持つ
+    private Plan plan;  // 外部キーとしてPlanのIDを持つ
 }

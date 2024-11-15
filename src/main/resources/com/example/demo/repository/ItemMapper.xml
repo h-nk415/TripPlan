@@ -32,7 +32,7 @@
         SET checked = #{checked}
         WHERE id = #{id}
     </update>
-
+    
     <!-- 指定されたIDのアイテムを削除するSQL文 -->
     <delete id="deleteItemById" parameterType="int">
         DELETE FROM Item WHERE id = #{id}

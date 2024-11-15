@@ -129,9 +129,7 @@
                     <th>チェック</th>
                     <th>操作</th>
                 </tr>
-
-                <!-- アイテム行にデータ属性を追加 -->
-                <tr class="item-row" th:each="item : ${plan.items}">
+                <tr th:each="item : ${plan.items}">
                     <td th:text="${item.name}"></td>
                     <td th:text="${item.quantity}"></td>
                     <td>
@@ -145,10 +143,8 @@
                         </form>
                     </td>
                 </tr>
-
             </table>
 
-            <!-- 持ち物リストのクイック追加フォーム -->
             <form th:action="@{/items/create}" method="post" style="margin-top: 10px;">
                 <input type="hidden" name="planId" th:value="${plan.id}">
                 <input type="text" name="name" placeholder="アイテム名" required />
@@ -163,57 +159,38 @@
                     <th>完了状況</th>
                     <th>操作</th>
                 </tr>
-
-                <!-- TODOリスト -->
                 <tr th:each="todo : ${plan.todos}">
                     <td th:text="${todo.task}"></td>
-
-                    <!-- 完了状態を切り替えるフォーム -->
-                    <td><form th:action="@{/todos/toggleComplete/{id}(id=${todo.id})}" method="post" style="display:inline;">
-                            <!-- チェックボックス -->
+                    <td>
+                        <form th:action="@{/todos/update/{id}(id=${todo.id})}" method="post" style="display:inline;">
                             <input type="checkbox" th:checked="${todo.completed}" onchange="this.form.submit()">
-                            <!-- 状態表示 -->
-                            (<span th:text="${todo.completed ? '完了' : '未完了'}"></span>)
-                        </form></td>
-
-                    <!-- 編集と削除ボタン -->
-                    <td style="white-space: nowrap;">
-                        <!-- 編集ボタン -->
-                        <a th:href="@{/todos/edit/{id}(id=${todo.id})}">
-                            <button>編集</button></a>
-
-                        <!-- 削除ボタン -->
+                            
+                        </form>
+                    </td>
+                    <td>
+                        
                         <form th:action="@{/todos/delete/{id}(id=${todo.id})}" method="post" style="display:inline;">
-                            <!-- 確認ダイアログ -->
-                            <button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button></form></td>
-
+                            <button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
+                        </form>
+                    </td>
                 </tr>
-
             </table>
 
-            <!-- TODOリストのクイック追加フォーム -->
-            <form th:action="@{/todos/quickAdd}" method="post" style="margin-top: 10px;">
-                <!-- プランIDを隠しフィールドとして送信 -->
+            <form th:action="@{/todos/create}" method="post" style="margin-top: 10px;">
                 <input type="hidden" name="planId" th:value="${plan.id}">
-                <!-- タスク入力フィールド -->
                 <input type="text" name="task" placeholder="タスク" required />
-                <!-- 追加ボタン -->
-                <button type="submit">追加</button></form>
+                <button type="submit">追加</button>
+            </form>
 
         </td>
-
     </tr>
-
 </table>
 
-<!-- ホームに戻るリンク -->
 <div style="margin-top: 20px;">
-    <!-- ホームに戻るボタン -->
     <a href="/plans/home">
-        <button>ホームに戻る</button></a
-    >
+        <button>ホームに戻る</button>
+    </a>
 </div>
 
 </body>
-
 </html>

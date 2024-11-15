@@ -28,11 +28,11 @@ public class ItemService {
         return itemMapper.selectItemsByPlanId(planId);
     }
 
-    
-
     public void updateItem(Item item) {
         itemMapper.updateItem(item);
     }
+
+    
 
     public void deleteItem(Integer id) {
         itemMapper.deleteItemById(id);

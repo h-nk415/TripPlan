@@ -5,13 +5,11 @@
 
 <mapper namespace="com.example.demo.repository.TodoMapper">
 
-<!-- resultMapの定義 -->
-    <resultMap id="todoResultMap" type="com.example.demo.entity.Schedule">
+    <!-- resultMapの定義 -->
+    <resultMap id="todoResultMap" type="com.example.demo.entity.Todo">
         <id property="id" column="id"/>
-        <result property="scheduleTime" column="scheduleTime"/>
-        <result property="spot" column="spot"/>
-        <result property="memo" column="memo"/>
-        <result property="spotUrl" column="spotUrl"/>
+        <result property="task" column="task"/>
+        <result property="completed" column="completed"/>
         <association property="plan" column="plan_id" javaType="com.example.demo.entity.Plan"
                      select="com.example.demo.repository.PlanMapper.selectPlanById"/>
     </resultMap>
@@ -23,12 +21,12 @@
     </insert>
 
     <!-- 指定されたIDのTodoアイテムを取得するSQL文 -->
-    <select id="selectTodoById" parameterType="int" resultType="com.example.demo.entity.Todo">
+    <select id="selectTodoById" parameterType="int" resultMap="todoResultMap">
         SELECT * FROM Todo WHERE id = #{id}
     </select>
 
     <!-- すべてのTodoアイテムを取得するSQL文 -->
-    <select id="selectAllTodos" resultType="com.example.demo.entity.Todo">
+    <select id="selectAllTodos" resultMap="todoResultMap">
         SELECT * FROM Todo
     </select>
 
@@ -46,10 +44,9 @@
         DELETE FROM Todo WHERE id = #{id}
     </delete>
     
-    
     <!-- 指定された旅行プランIDに関連するTodoアイテムを取得するSQL文 -->
     <select id="selectTodosByPlanId" parameterType="int" resultMap="todoResultMap">
-        SELECT t.*, p.* 
+        SELECT t.*, p.*
         FROM Todo t
         LEFT JOIN Plan p ON t.plan_id = p.id
         WHERE t.plan_id = #{planId}
