@@ -1,6 +1,9 @@
 package com.example.demo.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,9 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Item;
+import com.example.demo.entity.Plan;
+import com.example.demo.form.ItemForm;
 import com.example.demo.service.ItemService;
 import com.example.demo.service.PlanService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -21,14 +27,35 @@ public class ItemController {
     private final ItemService itemService;
     private final PlanService planService;
 
-    // アイテム作成処理
+    @GetMapping("/entry/{id}")
+	public String entryItem(@PathVariable("id") int planId, @ModelAttribute ItemForm itemForm, Model model) {
+		Plan plan = planService.getPlanDetails(planId);
+		itemForm.setPlan(plan);
+
+		model.addAttribute("plan", plan);  
+		model.addAttribute("itemForm", itemForm);
+
+		return "itemForm";
+	}
+    
+    
     @PostMapping("/create")
-    public String createItem(@ModelAttribute Item item, @RequestParam("planId") Integer planId) {
-        // planIdを設定
-        item.setPlan(planService.getPlanById(planId));
+    public String createItem(@ModelAttribute @Valid ItemForm itemForm, BindingResult bindingResult, Model model, @RequestParam("planId") Integer planId) {
+        if (bindingResult.hasErrors()) {
+            Plan plan = planService.getPlanById(planId);
+            model.addAttribute("plan", plan);
+            return "itemForm"; // エラーがあれば再表示
+        }
+
+        // ItemFormからItemエンティティにデータを変換
+        Item item = new Item();
+        item.setName(itemForm.getName());
+        item.setQuantity(itemForm.getQuantity());
         item.setChecked(false);
+        item.setPlan(planService.getPlanById(planId)); // planIdを設定
         itemService.createItem(item); // アイテムを作成するメソッドを呼び出す
-        return "redirect:/plans/" + planId; // プラン詳細ページにリダイレクト
+
+        return "redirect:/items/entry/" + planId; // プラン詳細ページにリダイレクト
     }
 
     // アイテムのチェックボックスの状態を反転
@@ -37,7 +64,7 @@ public class ItemController {
         Item item = itemService.getItemById(id);
         item.setChecked(!item.getChecked()); // チェック状態を反転
         itemService.updateItem(item); // 更新を保存
-        return "redirect:/plans/" + item.getPlan().getId(); // プラン詳細ページにリダイレクト
+        return "redirect:/items/entry/" + item.getPlan().getId(); // プラン詳細ページにリダイレクト
     }
 
     // アイテムの削除処理
@@ -46,7 +73,7 @@ public class ItemController {
         Item item = itemService.getItemById(id);
         Integer planId = item.getPlan().getId();
         itemService.deleteItem(id); // アイテム削除
-        return "redirect:/plans/" + planId; // プラン詳細ページにリダイレクト
+        return "redirect:/items/entry/" + planId; // プラン詳細ページにリダイレクト
     }
 
     

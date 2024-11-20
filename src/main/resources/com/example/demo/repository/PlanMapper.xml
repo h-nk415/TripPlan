@@ -15,7 +15,8 @@
         <result property="destination1" column="destination1"/>
         <result property="destination2" column="destination2"/>
         <result property="destination3" column="destination3"/>
-        
+        <result property="iconImage" column="icon_image"/> <!-- 追加 -->
+
         <!-- schedulesのcollection -->
         <collection property="schedules" ofType="com.example.demo.entity.Schedule" javaType="java.util.List">
             <id property="id" column="schedule_id"/>
@@ -23,7 +24,6 @@
             <result property="event" column="event"/>
             <result property="memo" column="memo"/>
             <result property="url" column="url"/>
-            
         </collection>
 
         <!-- itemsのcollection -->
@@ -57,11 +57,10 @@
         ORDER BY i.id, t.id, s.schedule_time;
     </select>
 
-    <!-- その他のSQL文はそのまま -->
     <!-- 新しい旅行プランを挿入するSQL文 -->
     <insert id="insertPlan" parameterType="com.example.demo.entity.Plan">
-        INSERT INTO plan (title, title_detail, start_date, end_date, destination1, destination2, destination3)
-        VALUES (#{title}, #{titleDetail}, #{startDate}, #{endDate}, #{destination1}, #{destination2}, #{destination3})
+        INSERT INTO plan (title, title_detail, start_date, end_date, destination1, destination2, destination3, icon_image)
+        VALUES (#{title}, #{titleDetail}, #{startDate}, #{endDate}, #{destination1}, #{destination2}, #{destination3}, #{iconImage}) <!-- 追加 -->
     </insert>
 
     <!-- 指定されたIDの旅行プランを取得するSQL文 -->
@@ -72,6 +71,7 @@
     <!-- すべての旅行プランを取得するSQL文 -->
     <select id="selectAllPlans" resultMap="planResultMap">
         SELECT * FROM plan
+        ORDER BY id
     </select>
 
     <!-- 指定された旅行プランの情報を更新するSQL文 -->
@@ -83,7 +83,8 @@
             end_date = #{endDate},
             destination1 = #{destination1},
             destination2 = #{destination2},
-            destination3 = #{destination3}
+            destination3 = #{destination3},
+            icon_image = #{iconImage} <!-- 追加 -->
         WHERE id = #{id}
     </update>
 

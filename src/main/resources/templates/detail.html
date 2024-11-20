@@ -4,29 +4,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>旅行プラン詳細</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f0f4f8;
-            color: #333;
+        * {
+            box-sizing: border-box;
             margin: 0;
-            padding: 20px;
+            padding: 0;
         }
-        h1, h2, h3 {
-            color: #4A90E2;
+        body {
+            background-image: url('/image/header.jpg');
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #f7f9fc;
+            color: #5F7D8A;
+            line-height: 1.6;
         }
-        .delete-button {
-            position: fixed;
-            right: 20px;
-            top: 20px;
+        .header {
+            background-color: #ffffff;
+            border-bottom: 1px solid #e9ecef;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header img {
+            height: 40px;
+            margin-right: 20px;
+        }
+        .header h1 {
+            font-size: 1.8rem;
+            color: #495057;
+            font-weight: 300;
+            margin: 0 10px 0 0;
+            flex-grow: 1;
+        }
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin-right: 20px;
+        }
+        .button-container button {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #5B9A9E;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+        }
+        .button-container button:hover {
+            background-color: #6BA7B6;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .button-container button:active {
+            background-color: #4D8C8F;
+            transform: translateY(0);
+        }
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .title-wrapper {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .title-wrapper h1 {
+            font-size: 2rem;
+            color: #5F7D8A;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 0;
+        }
+        .destination-badge {
+            background-color: #86C7D6;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+        .date-range {
+            font-size: 14px;
+            color: #5F7D8A;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .table-wrapper {
+            margin-top: 20px;
         }
         table {
             border-collapse: collapse;
             width: 100%;
-            margin-top: 20px;
             background-color: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
         th, td {
             border: 1px solid #ddd;
@@ -34,163 +106,173 @@
             text-align: left;
         }
         th {
-            background-color: #4A90E2;
+            background-color: #86C7D6;
             color: white;
         }
-        button {
-            background-color: #4A90E2;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        button:hover {
-            background-color: #357ABD;
-        }
-        form {
+        .back-button {
             display: inline-block;
+            background-color: #86C7D6;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 25px;
+            transition: background-color 0.3s, transform 0.3s;
+            text-decoration: none;
         }
+        .back-button:hover {
+            background-color: #74B5C0;
+            transform: translateY(-2px);
+        }
+        .back-button:active {
+            transform: translateY(0);
+        }
+        .footer {
+            background-color: rgb(192, 192, 192);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        .footer a {
+            color: #86C7D6;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .event-link {
+            color: inherit;
+			
+            text-decoration: none;
+        }
+        
+        .event-link:hover {
+            text-decoration: underline;
+        }
+        .highlight-button {
+            background-color: 						#86C7D6 !important;
+            padding: 12px 18px !important;
+            font-size: 1.05em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .highlight-button:hover {
+            background-color: #5499C7 !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+		.button-container {
+		    display: flex;
+		    gap: 10px;
+		    margin-right: 20px;
+		}
+		
+		.button-container a {
+		    font-family: 'Noto Sans JP', sans-serif;
+		    font-size: 16px;
+		    color: #5B9A9E;
+		    text-decoration: none;
+		    transition: color 0.3s, transform 0.3s;
+		}
+		
+		.button-container a:hover {
+		    color: #6BA7B6;
+		    transform: translateY(-2px);
+		}
+		
+		.button-container a:active {
+		    color: #4D8C8F;
+		    transform: translateY(0);
+		}
+		
+		.button-container span {
+		    color: #5B9A9E;
+		    font-size: 18px;
+		}
+
     </style>
 </head>
 <body>
-
-<h1>旅行プラン詳細</h1>
-
-<div class="delete-button">
-    <form th:action="@{/plans/delete/{id}(id=${plan.id})}" method="post" onsubmit="return confirm('本当に削除しますか？');">
-        <button type="submit">旅行プランを削除</button>
-    </form>
-</div>
-
-<table>
-    <tr>
-        <td style="width:66%; vertical-align:top;">
-            <h2 th:text="${plan.title}"></h2>
-            <p><strong th:text="${plan.titleDetail}"></strong></p>
-
-            <table>
-                <tr>
-                    <td style="width:50%">
-                        <h3>基本情報</h3>
-                        <p><strong>開始日:</strong> <span th:text="${#temporals.format(plan.startDate, 'yyyy-MM-dd')}"></span></p>
-                        <p><strong>終了日:</strong> <span th:text="${#temporals.format(plan.endDate, 'yyyy-MM-dd')}"></span></p>
-                    </td>
-                    <td style="width:50%">
-                        <h3>目的地</h3>
-                        <ol>
-                            <li th:text="${plan.destination1}"></li>
-                            <li th:if="${plan.destination2}" th:text="${plan.destination2}"></li>
-                            <li th:if="${plan.destination3}" th:text="${plan.destination3}"></li>
-                        </ol>
-                    </td>
-                </tr>
-            </table>
-
-            <div style="margin-top: 10px;">
-                <a th:href="@{/plans/edit/{id}(id=${plan.id})}">
-                    <button>観光プランを編集</button>
-                </a>
+    <div class="header">
+        <a 	th:href="@{/plans/home}">
+            <img src="/image/logo.png" alt="ロゴ">
+        </a>
+        <h1>旅行プラン</h1>
+		<div class="button-container">
+			<form th:action="@{/plans/edit/{id}(id=${plan.id})}" method="get" style="display:inline;">
+			    
+			    <button type="submit" class="delete-link" style="background: none; border: none; color: #5B9A9E; text-decoration: none; font-family: 'Noto Sans JP', sans-serif; font-size: 16px; cursor: pointer;" onclick="return confirm('本当に削除しますか？');">
+			        旅行プランを編集
+			    </button>
+			</form>
+			<span style="margin-top: 7px;">|</span>
+			<form th:action="@{/plans/delete/{id}(id=${plan.id})}" method="post" style="display:inline;">
+			    <input type="hidden" name="_method" value="delete">
+			    <button type="submit" class="delete-link" style="background: none; border: none; color: #5B9A9E; text-decoration: none; font-family: 'Noto Sans JP', sans-serif; font-size: 16px; cursor: pointer;" onclick="return confirm('本当に削除しますか？');">
+			        旅行プランを削除
+			    </button>
+			</form>
+		</div>
+        <a th:href="@{/plans/home}" class="back-button">プラン一覧に戻る</a>
+    </div>
+    <div class="container">
+        <div class="title-wrapper">
+            <h1 th:text="${plan.title}"></h1>
+            <div class="destination-badge" th:text="${plan.destination1}"></div>
+            <div th:if="${plan.destination2}" class="destination-badge" th:text="${plan.destination2}"></div>
+            <div th:if="${plan.destination3}" class="destination-badge" th:text="${plan.destination3}"></div>
+            <div class="date-range">
+                <span th:text="${#temporals.format(plan.startDate, 'yyyy年MM月dd日')}"></span>～
+                <span th:text="${#temporals.format(plan.endDate, 'yyyy年MM月dd日')}"></span>
             </div>
-
+			
+			<div class="button-container" style="margin-left: auto;">
+			        <a th:href="@{/items/entry/{id}(id=${plan.id})}">
+			            <button class="highlight-button">持ち物リスト</button>
+			        </a>
+			        <a th:href="@{/todos/entry/{id}(id=${plan.id})}">
+			            <button class="highlight-button">TODOリスト</button>
+			        </a>
+			    </div>
+        </div>
+		<br>
+        <div class="table-wrapper">
+			<div class="button-container">
             <h3>スケジュール</h3>
+			<a th:href="@{/schedules/entry/{id}(id=${plan.id})}">
+			    <button>＋ スケジュールを新規作成</button>
+			</a>
+			</div>
+			<br>
             <table>
-                <tr>
-                    <th>イベント</th>
-                    <th>時間</th>
-                    <th>メモ</th>
-                    <th>操作</th>
-                </tr>
-                <tr th:each="schedule : ${plan.schedules}">
-                    <td th:text="${schedule.event}"></td>
-                    <td th:text="${#temporals.format(schedule.scheduleTime, 'yyyy-MM-dd HH:mm')}"></td>
-                    <td th:text="${schedule.memo}"></td>
-                    <td>
-                        <a th:href="@{/schedules/edit/{id}(id=${schedule.id})}"><button>編集</button></a>
-                    </td>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>時間</th>
+                        <th>イベント</th>
+                        <th>メモ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <th:block th:each="schedule, iterStat : ${plan.schedules}">
+                        <tr th:if="${iterStat.index == 0 || !#temporals.format(schedule.scheduleTime, 'yyyy-MM-dd').equals(#temporals.format(plan.schedules[iterStat.index - 1].scheduleTime, 'yyyy-MM-dd'))}">
+                            <td colspan="3" th:text="${#temporals.format(schedule.scheduleTime, 'yyyy年MM月dd日 (E)')}"></td>
+                        </tr>
+                        <tr>
+                            <td th:text="${#temporals.format(schedule.scheduleTime, 'HH:mm')}"></td>
+							<td>
+							    <a th:href="@{/schedules/edit/{id}(id=${schedule.id})}" th:text="${schedule.event}" class="event-link"></a>
+							</td>
+                            <td th:text="${schedule.memo}"></td>
+                        </tr>
+                    </th:block>
+                </tbody>
             </table>
-
-            <div style="margin-top: 10px;">
-                <a th:href="@{/schedules/entry/{id}(id=${plan.id})}">
-                    <button>スケジュールを新規作成</button>
-                </a>
-            </div>
-
-        </td>
-
-        <td style="width:34%; vertical-align:top;">
-            <h3>持ち物リスト</h3>
-            <table style="width:100%">
-                <tr>
-                    <th>アイテム</th>
-                    <th>数量</th>
-                    <th>チェック</th>
-                    <th>操作</th>
-                </tr>
-                <tr th:each="item : ${plan.items}">
-                    <td th:text="${item.name}"></td>
-                    <td th:text="${item.quantity}"></td>
-                    <td>
-                        <form th:action="@{/items/check/{id}(id=${item.id})}" method="post" style="display:inline;">
-                            <input type="checkbox" th:checked="${item.checked}" onchange="this.form.submit()">
-                        </form>
-                    </td>
-                    <td>
-                        <form th:action="@{/items/delete/{id}(id=${item.id})}" method="post" style="display:inline;">
-                            <button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
-                        </form>
-                    </td>
-                </tr>
-            </table>
-
-            <form th:action="@{/items/create}" method="post" style="margin-top: 10px;">
-                <input type="hidden" name="planId" th:value="${plan.id}">
-                <input type="text" name="name" placeholder="アイテム名" required />
-                <input type="number" name="quantity" placeholder="数量" required />
-                <button type="submit">追加</button>
-            </form>
-
-            <h3>TODOリスト</h3>
-            <table style="width:100%">
-                <tr>
-                    <th>タスク</th>
-                    <th>完了状況</th>
-                    <th>操作</th>
-                </tr>
-                <tr th:each="todo : ${plan.todos}">
-                    <td th:text="${todo.task}"></td>
-                    <td>
-                        <form th:action="@{/todos/update/{id}(id=${todo.id})}" method="post" style="display:inline;">
-                            <input type="checkbox" th:checked="${todo.completed}" onchange="this.form.submit()">
-                            
-                        </form>
-                    </td>
-                    <td>
-                        
-                        <form th:action="@{/todos/delete/{id}(id=${todo.id})}" method="post" style="display:inline;">
-                            <button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
-                        </form>
-                    </td>
-                </tr>
-            </table>
-
-            <form th:action="@{/todos/create}" method="post" style="margin-top: 10px;">
-                <input type="hidden" name="planId" th:value="${plan.id}">
-                <input type="text" name="task" placeholder="タスク" required />
-                <button type="submit">追加</button>
-            </form>
-
-        </td>
-    </tr>
-</table>
-
-<div style="margin-top: 20px;">
-    <a href="/plans/home">
-        <button>ホームに戻る</button>
-    </a>
-</div>
-
+        </div>
+    </div>
+    <div class="footer">
+        <p>© 2024 旅行プランサイト 旅びより | 利用規約 | お問い合わせ</p>
+    </div>
 </body>
 </html>

@@ -1,7 +1,7 @@
 package com.example.demo.form;
 
-
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import com.example.demo.entity.Plan;
 
@@ -18,19 +18,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PlanForm {
-	
-	public PlanForm(Plan plan) {
-		this.id = plan.getId();
-	    this.title = plan.getTitle();
-	    this.titleDetail = plan.getTitleDetail();
-	    this.startDate = plan.getStartDate();
-	    this.endDate = plan.getEndDate();
-	    this.destination1 = plan.getDestination1();
-	    this.destination2 = plan.getDestination2();
-	    this.destination3 = plan.getDestination3();
-	}
-	
-	private Integer id;
+    
+    public PlanForm(Plan plan) {
+        this.id = plan.getId();
+        this.title = plan.getTitle();
+        this.titleDetail = plan.getTitleDetail();
+        this.startDate = plan.getStartDate();
+        this.endDate = plan.getEndDate();
+        this.destination1 = plan.getDestination1();
+        this.destination2 = plan.getDestination2();
+        this.destination3 = plan.getDestination3();
+    }
+
+    private Integer id;
 
     /** 
      * 旅行プランのタイトル
@@ -73,4 +73,44 @@ public class PlanForm {
      * 旅行先の3つ目の行き先
      */
     private String destination3;
+    
+    
+
+    // startDateをyyyy-MM-ddの文字列で保持するためのフィールド
+    private String startDateString;
+
+    // endDateをyyyy-MM-ddの文字列で保持するためのフィールド
+    private String endDateString;
+
+    // startDateStringを設定したときに、startDateも更新する
+    public void setStartDateString(String startDateString) {
+        this.startDateString = startDateString;
+        if (startDateString != null && !startDateString.isEmpty()) {
+            this.startDate = LocalDate.parse(startDateString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        }
+    }
+
+    // endDateStringを設定したときに、endDateも更新する
+    public void setEndDateString(String endDateString) {
+        this.endDateString = endDateString;
+        if (endDateString != null && !endDateString.isEmpty()) {
+            this.endDate = LocalDate.parse(endDateString, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        }
+    }
+
+    // startDateが設定されている場合に、その文字列形式を返す
+    public String getStartDateString() {
+        if (this.startDate != null) {
+            return this.startDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        }
+        return this.startDateString;
+    }
+
+    // endDateが設定されている場合に、その文字列形式を返す
+    public String getEndDateString() {
+        if (this.endDate != null) {
+            return this.endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        }
+        return this.endDateString;
+    }
 }

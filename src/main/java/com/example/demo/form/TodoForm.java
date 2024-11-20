@@ -3,6 +3,7 @@ package com.example.demo.form;
 import com.example.demo.entity.Plan;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class TodoForm {
      * Todoの内容（例: "パスポートを準備する"）
      */
     @NotEmpty(message = "タスク内容は必須です")
+    @Size(max = 50, message = "タスク名は50文字以内で入力してください")
     private String task;
 
     /** 

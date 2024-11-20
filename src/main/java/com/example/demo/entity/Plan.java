@@ -61,5 +61,7 @@ public class Plan {
      * 旅行先の3つ目の行き先
      */
     private String destination3;
+    
+    private String iconImage;
 
 }
