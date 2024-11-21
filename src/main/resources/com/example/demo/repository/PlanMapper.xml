@@ -24,37 +24,20 @@
             <result property="event" column="event"/>
             <result property="memo" column="memo"/>
             <result property="url" column="url"/>
+            <result property="flag" column="flag"/> <!-- 追加: flagカラム -->
         </collection>
 
-        <!-- itemsのcollection -->
-        <collection property="items" ofType="com.example.demo.entity.Item" javaType="java.util.List">
-            <id property="id" column="item_id"/>
-            <result property="name" column="name"/>
-            <result property="quantity" column="quantity"/>
-            <result property="checked" column="checked"/>
-        </collection>
-
-        <!-- todosのcollection -->
-        <collection property="todos" ofType="com.example.demo.entity.Todo" javaType="java.util.List">
-            <id property="id" column="todo_id"/>
-            <result property="task" column="task"/>
-            <result property="completed" column="completed"/>
-        </collection>
     </resultMap>
 
     <!-- プラン詳細画面に必要なデータを一度に取得するSQL -->
     <select id="selectPlanDetails" parameterType="int" resultMap="planResultMap">
         SELECT 
             p.*, 
-            s.id AS schedule_id, s.schedule_time AS schedule_time, s.event, s.memo, s.url, 
-            i.id AS item_id, i.name, i.quantity, i.checked,
-            t.id AS todo_id, t.task, t.completed
+            s.id AS schedule_id, s.schedule_time AS schedule_time, s.event, s.memo, s.url, s.flag <!-- flagを追加 -->
         FROM plan p
         LEFT JOIN schedule s ON p.id = s.plan_id
-        LEFT JOIN item i ON p.id = i.plan_id
-        LEFT JOIN todo t ON p.id = t.plan_id
         WHERE p.id = #{id}
-        ORDER BY i.id, t.id, s.schedule_time;
+        ORDER BY  s.schedule_time;
     </select>
 
     <!-- 新しい旅行プランを挿入するSQL文 -->
@@ -71,7 +54,8 @@
     <!-- すべての旅行プランを取得するSQL文 -->
     <select id="selectAllPlans" resultMap="planResultMap">
         SELECT * FROM plan
-        ORDER BY id
+    WHERE users_id = #{usersId}  <!-- useridでフィルタリング -->
+    ORDER BY id;
     </select>
 
     <!-- 指定された旅行プランの情報を更新するSQL文 -->

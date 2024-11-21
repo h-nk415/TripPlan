@@ -3,6 +3,23 @@ DROP TABLE IF EXISTS schedule CASCADE;
 DROP TABLE IF EXISTS item CASCADE;
 DROP TABLE IF EXISTS todo CASCADE;
 DROP TABLE IF EXISTS plan CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+
+--userテーブルの作成
+CREATE TABLE users (
+
+	--ユーザーID：主キー
+	id SERIAL PRIMARY KEY,
+	
+	email VARCHAR(255) UNIQUE NOT NULL,
+	
+	--パスワード：NULL不許可
+	password VARCHAR(255) NOT NULL,
+	
+	--表示名：NULL不許可
+	displayname VARCHAR(255) NOT NULL
+	
+);
 
 -- planテーブル
 CREATE TABLE plan (
@@ -14,7 +31,8 @@ CREATE TABLE plan (
     destination1 VARCHAR(255) NOT NULL,           -- 旅行先の1つ目の行き先
     destination2 VARCHAR(255),                    -- 旅行先の2つ目の行き先
     destination3 VARCHAR(255),                     -- 旅行先の3つ目の行き先
-    icon_image VARCHAR(255)                       -- アイコン画像のファイル名（追加）
+    icon_image VARCHAR(255),                       -- アイコン画像のファイル名（追加）
+    users_id INTEGER REFERENCES users(id)
 );
 
 -- scheduleテーブル
@@ -24,6 +42,7 @@ CREATE TABLE schedule (
     event VARCHAR(255) NOT NULL,                  -- 予定内容
     memo VARCHAR(255),                            -- メモ
     url VARCHAR(255),                             -- 関連URL
+    flag VARCHAR(255),
     plan_id INTEGER REFERENCES plan(id)           -- 関連する旅行プラン（外部キー）
 );
 

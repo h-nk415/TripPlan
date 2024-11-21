@@ -10,14 +10,15 @@
         <result property="event" column="event" />
         <result property="memo" column="memo" />
         <result property="url" column="url" />
+        <result property="flag" column="flag" /> <!-- 追加: flagカラム -->
         <association property="plan" column="plan_id" javaType="com.example.demo.entity.Plan"
                       select="com.example.demo.repository.PlanMapper.selectPlanById" />
     </resultMap>
 
     <!-- 新しいスケジュールを挿入するSQL文 -->
     <insert id="insertSchedule" parameterType="com.example.demo.entity.Schedule">
-        INSERT INTO schedule (schedule_time, event, memo, url, plan_id)
-        VALUES (#{scheduleTime}, #{event}, #{memo}, #{url}, #{plan.id})
+        INSERT INTO schedule (schedule_time, event, memo, url, flag, plan_id)
+        VALUES (#{scheduleTime}, #{event}, #{memo}, #{url}, #{flag}, #{plan.id}) <!-- flagを追加 -->
     </insert>
 
     <!-- 指定されたIDのスケジュールを取得するSQL文 -->
@@ -28,8 +29,8 @@
     <!-- 指定された旅行プランIDに関連するスケジュールを取得するSQL文 -->
     <select id="selectSchedulesByPlanId" parameterType="int" resultMap="scheduleResultMap">
         SELECT s.*, p.* 
-        FROM Schedule s
-        LEFT JOIN Plan p ON s.plan_id = p.id
+        FROM schedule s
+        LEFT JOIN plan p ON s.plan_id = p.id
         WHERE s.plan_id = #{planId}
     </select>
 
@@ -40,13 +41,14 @@
             event = #{event},
             memo = #{memo},
             url = #{url},
+            flag = #{flag}, <!-- flagを追加 -->
             plan_id = #{plan.id}
         WHERE id = #{id}
     </update>
 
     <!-- 指定されたIDのスケジュールを削除するSQL文 -->
     <delete id="deleteScheduleById" parameterType="int">
-        DELETE FROM Schedule WHERE id = #{id}
+        DELETE FROM schedule WHERE id = #{id}
     </delete>
 
 </mapper>

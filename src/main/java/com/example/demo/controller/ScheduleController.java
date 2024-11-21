@@ -25,43 +25,43 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/schedules")
 public class ScheduleController {
 
-	/** DI */
-	private final ScheduleService scheduleService;
-	private final PlanService planService;
+    /** DI */
+    private final ScheduleService scheduleService;
+    private final PlanService planService;
 
 
-	// プランを元にスケジュールフォームを表示
-	@GetMapping("/entry/{id}")
-	public String entrySchedule(@PathVariable("id") int planId, @ModelAttribute ScheduleForm scheduleForm, Model model) {
-		Plan plan = planService.getPlanDetails(planId);
-		scheduleForm.setPlan(plan);
+    // プランを元にスケジュールフォームを表示
+    @GetMapping("/entry/{id}")
+    public String entrySchedule(@PathVariable("id") int planId, @ModelAttribute ScheduleForm scheduleForm, Model model) {
+        Plan plan = planService.getPlanDetails(planId);
+        scheduleForm.setPlan(plan);
 
-		model.addAttribute("plan", plan);  
-		model.addAttribute("scheduleForm", scheduleForm);
+        model.addAttribute("plan", plan);
+        model.addAttribute("scheduleForm", scheduleForm);
 
-		return "scheduleForm";
-	}
+        return "scheduleForm";
+    }
 
-	// スケジュール作成
-	@PostMapping("/create")
-	public String createSchedule(@ModelAttribute ScheduleForm scheduleForm) {
-		// scheduleFormから受け取ったplan.idを使用して完全なPlanオブジェクトを取得
-		Plan completePlan = planService.getPlanDetails(scheduleForm.getPlan().getId());
+    // スケジュール作成
+    @PostMapping("/create")
+    public String createSchedule(@ModelAttribute ScheduleForm scheduleForm) {
+        // scheduleFormから受け取ったplan.idを使用して完全なPlanオブジェクトを取得
+        Plan completePlan = planService.getPlanDetails(scheduleForm.getPlan().getId());
 
-		Schedule schedule = new Schedule();
-		schedule.setPlan(completePlan); // 取得した完全なPlanをセット
-		schedule.setScheduleTime(scheduleForm.getScheduleTime());
-		schedule.setEvent(scheduleForm.getEvent());
-		schedule.setMemo(scheduleForm.getMemo());
-		schedule.setUrl(scheduleForm.getUrl());
+        Schedule schedule = new Schedule();
+        schedule.setPlan(completePlan); // 取得した完全なPlanをセット
+        schedule.setScheduleTime(scheduleForm.getScheduleTime());
+        schedule.setEvent(scheduleForm.getEvent());
+        schedule.setMemo(scheduleForm.getMemo());
+        schedule.setUrl(scheduleForm.getUrl());
+        schedule.setFlag(scheduleForm.getFlag()); // 追加: flagを設定
 
-		scheduleService.createSchedule(schedule);
+        scheduleService.createSchedule(schedule);
 
-		return "redirect:/plans/" + completePlan.getId();
-	}
+        return "redirect:/plans/" + completePlan.getId();
+    }
 
-
-	@GetMapping("/edit/{id}")
+    @GetMapping("/edit/{id}")
     public String editSchedule(@PathVariable Integer id, Model model) {
         Schedule schedule = scheduleService.getScheduleById(id);
         ScheduleForm scheduleForm = new ScheduleForm(schedule);
@@ -82,17 +82,19 @@ public class ScheduleController {
         schedule.setEvent(scheduleForm.getEvent());
         schedule.setMemo(scheduleForm.getMemo());
         schedule.setUrl(scheduleForm.getUrl());
+        schedule.setFlag(scheduleForm.getFlag()); // 追加: flagを更新
 
         scheduleService.updateSchedule(schedule);
 
         return "redirect:/plans/" + schedule.getPlan().getId();
     }
-	/**
-	 * 指定されたIDのスケジュールを削除します。
-	 *
-	 * @param id 削除するスケジュールのID
-	 * @return 削除後のリダイレクトURL
-	 */
+
+    /**
+     * 指定されたIDのスケジュールを削除します。
+     *
+     * @param id 削除するスケジュールのID
+     * @return 削除後のリダイレクトURL
+     */
     @PostMapping("/delete/{id}")
     public String deleteSchedule(@PathVariable Integer id) {
         Schedule schedule = scheduleService.getScheduleById(id);

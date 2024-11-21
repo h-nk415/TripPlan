@@ -23,9 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Plan;
-import com.example.demo.form.ItemForm;
 import com.example.demo.form.PlanForm;
-import com.example.demo.form.TodoForm;
 import com.example.demo.service.PlanService;
 
 import jakarta.validation.Valid;
@@ -55,11 +53,9 @@ public class PlanController {
     @GetMapping("/{id}")
     public String getPlanDetails(@PathVariable Integer id, Model model) {
         Plan plan = planService.getPlanDetails(id);
-        ItemForm itemForm = new ItemForm();
-        TodoForm todoForm = new TodoForm();
+        
         model.addAttribute("plan", plan);
-        model.addAttribute("itemForm", itemForm);
-        model.addAttribute("todoForm", todoForm);
+        
         return "detail";  // Detail.html というビュー名
     }
 

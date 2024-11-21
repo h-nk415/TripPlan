@@ -30,6 +30,8 @@ public class ScheduleForm {
     private String memo;
 
     private String url;
+    
+    private String flag;
 
     private Plan plan;
 

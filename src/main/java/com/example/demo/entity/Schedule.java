@@ -39,6 +39,8 @@ public class Schedule {
      * 関連URL
      */
     private String url;
+    
+    private String flag;
 
     /** 
      * このスケジュールに関連する旅行プラン

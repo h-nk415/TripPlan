@@ -13,6 +13,7 @@
             padding: 0;
         }
         body {
+			background-image: url('/image/header.jpg');
             font-family: 'Noto Sans JP', sans-serif;
             background-color: #f7f9fc;
             color: #333;
@@ -115,6 +116,47 @@
 		        .footer a:hover {
 		            text-decoration: underline;
 		        }
+				/* 予定の種類選択欄のスタイル */
+				#flag {
+				    width: 100%;
+				    padding: 10px;
+				    border: 1px solid #e9ecef;
+				    border-radius: 5px;
+				    font-family: 'Noto Sans JP', sans-serif;
+				    font-size: 1rem;
+				    background-color: #ffffff;
+				    transition: border 0.3s ease, background-color 0.3s ease;
+				}
+				
+				/* フォーカス時にボーダーの色を変更 */
+				#flag:focus {
+				    border-color: #86C7D6;
+				    background-color: #f1f8fd;
+				    outline: none;
+				}
+				
+				/* 選択肢にマウスオーバー時のスタイル */
+				#flag option:hover {
+				    background-color: #f1f8fd;
+				}
+				
+				/* 選択肢全体のスタイル */
+				#flag option {
+				    padding: 10px;
+				    font-size: 1rem;
+				}
+				
+				/* アイコンを追加した場合のスタイル */
+				#flag {
+				    -webkit-appearance: none;
+				    -moz-appearance: none;
+				    appearance: none;
+				    background: url('/image/arrow-down.svg') no-repeat right 10px center;
+				    background-size: 16px 16px;
+				    padding-right: 35px; /* アイコンのスペースを確保 */
+				}
+
+				
     </style>
 </head>
 <body>
@@ -150,6 +192,17 @@
                 <label for="url">関連URL:</label>
                 <input type="url" id="url" th:field="*{url}">
             </div>
+			
+			<div>
+			                <label for="flag">予定の種類:</label>
+			                <select id="flag" name="flag">
+			                    <option value="食事">食事</option>
+			                    <option value="移動">移動</option>
+			                    <option value="観光">観光</option>
+			                    <option value="宿泊">宿泊</option>
+			                    <option value="ショッピング">ショッピング</option>
+			                </select>
+			            </div>
 
             <button type="submit">保存</button>
         </form>

@@ -18,10 +18,6 @@ public class Plan {
 	
 	private List<Schedule> schedules;
 	
-	private List<Item> items;
-	
-	private List<Todo> todos;
-	
     /** 
      * 旅行プランのID（主キー）
      */
@@ -62,6 +58,13 @@ public class Plan {
      */
     private String destination3;
     
+    /** 
+     * 旅行プランのアイコン画像（任意）
+     */
     private String iconImage;
 
+    /** 
+     * プランに関連するユーザーのID（外部キー）
+     */
+    private Integer usersId;  // ユーザーIDを追加
 }
