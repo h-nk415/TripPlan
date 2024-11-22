@@ -50,6 +50,7 @@
         FROM Todo t
         LEFT JOIN Plan p ON t.plan_id = p.id
         WHERE t.plan_id = #{planId}
+        ORDER BY t.id;
     </select>
 
 </mapper>

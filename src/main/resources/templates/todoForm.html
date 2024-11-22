@@ -13,7 +13,7 @@
             padding: 0;
         }
         body {
-			background-image: url('/image/header.jpg');
+            background-image: url('/image/header.jpg');
             font-family: 'Noto Sans JP', sans-serif;
             background-color: #f7f9fc;
             color: #333;
@@ -136,7 +136,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="todo : ${plan.todos}">
+                <tr th:each="todo : ${todos}">
                     <td th:text="${todo.task}"></td>
                     <td>
                         <form th:action="@{/todos/update/{id}(id=${todo.id})}" method="post" style="display:inline;">

@@ -44,6 +44,7 @@
         FROM Item i
         LEFT JOIN Plan p ON i.plan_id = p.id
         WHERE i.plan_id = #{planId}
+        ORDER BY i.id;
     </select>
 
 </mapper>

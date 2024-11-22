@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,11 +31,11 @@ public class ItemController {
 
     @GetMapping("/entry/{id}")
 	public String entryItem(@PathVariable("id") int planId, @ModelAttribute ItemForm itemForm, Model model) {
-		Plan plan = planService.getPlanDetails(planId);
-		itemForm.setPlan(plan);
+    	List<Item> items = itemService.getItemsByPlanId(planId);
+        Plan plan = planService.getPlanById(planId);
 
 		model.addAttribute("plan", plan);  
-		model.addAttribute("itemForm", itemForm);
+		model.addAttribute("items", items);
 
 		return "itemForm";
 	}

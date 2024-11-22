@@ -131,16 +131,21 @@
 	
     <div class="container">
 		<div class="input-group">
-			            <form th:action="@{/items/create}" method="post" th:object="${itemForm}" style="display: flex; width: 100%; align-items: center;">
-			                <input type="text" placeholder="アイテム名" th:field="*{name}" required />
-			                <input type="number" placeholder="数量" th:field="*{quantity}" required min="1" />
-			                <input type="hidden" name="planId" th:value="${plan.id}" />
-			                <button type="submit" class="button">追加</button>
-			            </form>
-			        </div>
-			        <div class="error-message" th:if="${#fields.hasErrors('itemForm.name')}" th:errors="*{itemForm.name}"></div>
-			        <div class="error-message" th:if="${#fields.hasErrors('itemForm.quantity')}" th:errors="*{itemForm.quantity}"></div>
-<br>
+            <!-- アイテム追加フォーム -->
+            <form th:action="@{/items/create}" method="post" th:object="${itemForm}" style="display: flex; width: 100%; align-items: center;">
+                <input type="text" placeholder="アイテム名" th:field="*{name}" required />
+                <input type="number" placeholder="数量" th:field="*{quantity}" required min="1" />
+                <input type="hidden" name="planId" th:value="${plan.id}" />
+                <button type="submit" class="button">追加</button>
+            </form>
+        </div>
+        <!-- バリデーションエラーメッセージ -->
+        <div class="error-message" th:if="${#fields.hasErrors('itemForm.name')}" th:errors="*{itemForm.name}"></div>
+        <div class="error-message" th:if="${#fields.hasErrors('itemForm.quantity')}" th:errors="*{itemForm.quantity}"></div>
+        
+        <br>
+        
+        <!-- アイテム一覧テーブル -->
         <table>
             <thead>
                 <tr>
@@ -151,7 +156,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="item : ${plan.items}">
+                <tr th:each="item : ${items}">
                     <td th:text="${item.name}"></td>
                     <td th:text="${item.quantity}"></td>
                     <td>
@@ -168,8 +173,8 @@
             </tbody>
         </table>
 
-        
-<br>
+        <br>
+        <!-- 戻るボタン -->
         <a th:href="@{/plans/{id}(id=${plan.id})}" class="back-button">戻る</a>
     </div>
 

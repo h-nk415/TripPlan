@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,11 +31,11 @@ public class TodoController {
     
     @GetMapping("/entry/{id}")
 	public String entryTodo(@PathVariable("id") int planId, @ModelAttribute TodoForm todoForm, Model model) {
-		Plan plan = planService.getPlanDetails(planId);
-		todoForm.setPlan(plan);
+    	List<Todo> todos = todoService.getTodosByPlanId(planId);
+        Plan plan = planService.getPlanById(planId);
 
 		model.addAttribute("plan", plan);  
-		model.addAttribute("todoForm", todoForm);
+		model.addAttribute("todos", todos);
 
 		return "todoForm";
 	}
