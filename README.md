@@ -38,7 +38,7 @@
 <br>
 こちらから会員登録をします。
 <br><br>
-<img src="TripPlan/images/login_entry.png" alt="新規登録">
+<img src="/images/login_entry.png" alt="新規登録">
 </details>
 
 <details>
