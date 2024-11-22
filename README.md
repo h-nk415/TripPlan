@@ -30,7 +30,7 @@
 <summary>ログイン</summary>
 
 <br>
-<img src="TripPlan/images/login.png" alt="ログイン">
+<img src="/images/login.png" alt="ログイン">
 </details>
 
 <details>
@@ -46,7 +46,7 @@
 <br>
 ホーム画面です。旅行プラン一覧を確認できます。
 <br><br>
-<img src="TripPlan/images/plans_home.png" alt="ホーム画面">
+<img src="/images/plans_home.png" alt="ホーム画面">
 </details>
 
 <details>
@@ -54,19 +54,19 @@
 <br>
 スケジュールを確認できます。
 <br><br>
-<img src="TripPlan/images/plans_id.png" alt="旅行プラン詳細">
+<img src="/images/plans_id.png" alt="旅行プラン詳細">
 </details>
 
 <details>
 <summary>旅行プラン編集</summary>
 <br>
-<img src="TripPlan/images/plans_edit.png" alt="旅行プラン編集">
+<img src="/images/plans_edit.png" alt="旅行プラン編集">
 </details>
 
 <details>
 <summary>スケジュール新規作成</summary>
 <br>
-<img src="TripPlan/images/schedules_entry.png" alt="スケジュール新規作成">
+<img src="/images/schedules_entry.png" alt="スケジュール新規作成">
 </details>
 
 
@@ -75,7 +75,7 @@
 <br>
 イベントを押すとスケジュールが編集できます。
 <br><br>
-<img src="TripPlan/images/schedules_edit.png" alt="スケジュール編集">
+<img src="/images/schedules_edit.png" alt="スケジュール編集">
 </details>
 
 <details>
@@ -83,7 +83,7 @@
 <br>
 
 <br><br>
-<img src="TripPlan/images/items_entry.png" alt="持ち物リスト">
+<img src="/images/items_entry.png" alt="持ち物リスト">
 </details>
 
 <details>
@@ -91,7 +91,7 @@
 <br>
 
 <br><br>
-<img src="BookSystem/images/todos_entry.png" alt="TODOリスト">
+<img src="/images/todos_entry.png" alt="TODOリスト">
 </details>
 
 
