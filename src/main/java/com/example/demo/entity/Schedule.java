@@ -21,25 +21,28 @@ public class Schedule {
     private Integer id;
 
     /** 
-     * 時間
+     * スケジュールの実施時間
      */
     private LocalDateTime scheduleTime;
 
     /** 
-     * 予定内容
+     * スケジュールの予定内容（例: "観光地を訪れる"）
      */
     private String event;
 
     /** 
-     * メモ
+     * スケジュールのメモ（補足情報）
      */
     private String memo;
 
     /** 
-     * 関連URL
+     * スケジュールに関連するURL（例: 観光地の公式サイトなど）
      */
     private String url;
     
+    /** 
+     * フラグ（例: 優先度やステータスを示す）
+     */
     private String flag;
 
     /** 

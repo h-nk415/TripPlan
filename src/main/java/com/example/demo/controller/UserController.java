@@ -15,26 +15,49 @@ import com.example.demo.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * ユーザーに関連する操作を管理するコントローラークラスです。
+ * ユーザーのログイン、登録を行うエンドポイントを提供します。
+ */
 @Controller
 @RequiredArgsConstructor
-
 public class UserController {
 
+    /** ユーザーに関連するサービス */
     private final UserService userService;
     
-    // ログイン画面を表示
+    /**
+     * ログイン画面を表示します。
+     * 
+     * @return ログインフォームのビュー名
+     */
     @GetMapping("/login")
     public String showLoginForm() {
-    	return "login"; // login.html を返す
+        return "login"; // login.html を返す
     }
 
-    // ユーザー登録画面を表示
+    /**
+     * ユーザー登録画面を表示します。
+     * 新規登録用のフォームを初期化して表示します。
+     * 
+     * @param model モデルにフォームオブジェクトを追加
+     * @return ユーザー登録フォームのビュー名
+     */
     @GetMapping("/login/entry")
     public String showRegisterForm(Model model) {
         model.addAttribute("userForm", new UserForm());
-        return "userForm"; 
+        return "userForm"; // userForm.html を返す
     }
 
+    /**
+     * ユーザーを登録します。
+     * ユーザー情報をフォームから取得し、バリデーションを行った後、ユーザーを登録します。
+     * 
+     * @param userForm ユーザー情報を含むフォーム
+     * @param bindingResult バリデーションエラーを格納するオブジェクト
+     * @param model 画面にデータを渡すためのモデル
+     * @return 登録が成功した場合はログイン画面にリダイレクト、エラーがあれば登録フォームを再表示
+     */
     @PostMapping("/login/create")
     public String registerUser(@Valid @ModelAttribute("userForm") UserForm userForm,
                                BindingResult bindingResult, Model model) {
@@ -53,12 +76,9 @@ public class UserController {
         user.setPassword(hashedPassword);
         user.setDisplayname(userForm.getDisplayname());
         
-        userService.insertUser(user);
+        userService.insertUser(user); // ユーザーをサービスで登録
 
         model.addAttribute("message", "登録が完了しました");
         return "redirect:/login"; // 登録完了後、ログイン画面にリダイレクト
     }
-
-
-
 }

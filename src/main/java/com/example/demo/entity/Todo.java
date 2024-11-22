@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * 旅行のTodoリストのアイテムを表すクラスです。
+ * 旅行準備のために行うべきタスクやその完了状態を管理します。
  */
 @Data
 @NoArgsConstructor
@@ -29,10 +30,13 @@ public class Todo {
      */
     private Boolean completed;
     
+    /** 
+     * Todoアイテムの作成日時
+     */
     private LocalDateTime createdAt;
 
     /** 
-     * このTodoアイテムが関連する旅行プラン（外部キー）
+     * このTodoアイテムが関連する旅行プラン
      */
     private Plan plan;  // Planエンティティへの参照
 }

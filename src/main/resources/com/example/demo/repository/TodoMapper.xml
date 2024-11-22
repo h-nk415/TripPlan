@@ -1,37 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.demo.repository.TodoMapper">
 
-    <!-- resultMapの定義 -->
+    <!-- TodoエンティティをマッピングするresultMap -->
     <resultMap id="todoResultMap" type="com.example.demo.entity.Todo">
+        <!-- Todoエンティティの各プロパティとデータベースのカラムをマッピング -->
         <id property="id" column="id"/>
         <result property="task" column="task"/>
         <result property="completed" column="completed"/>
+        
+        <!-- Planエンティティとの関連を設定（plan_idを使って、Plan情報を取得） -->
         <association property="plan" column="plan_id" javaType="com.example.demo.entity.Plan"
                      select="com.example.demo.repository.PlanMapper.selectPlanById"/>
     </resultMap>
 
     <!-- 新しいTodoアイテムを挿入するSQL文 -->
     <insert id="insertTodo" parameterType="com.example.demo.entity.Todo">
+        <!-- 新しいTodoアイテムをTodoテーブルに挿入 -->
         INSERT INTO Todo (task, completed, plan_id)
         VALUES (#{task}, #{completed}, #{plan.id})
     </insert>
 
     <!-- 指定されたIDのTodoアイテムを取得するSQL文 -->
     <select id="selectTodoById" parameterType="int" resultMap="todoResultMap">
+        <!-- 指定されたIDのTodoアイテムをTodoテーブルから取得 -->
         SELECT * FROM Todo WHERE id = #{id}
     </select>
 
     <!-- すべてのTodoアイテムを取得するSQL文 -->
     <select id="selectAllTodos" resultMap="todoResultMap">
+        <!-- すべてのTodoアイテムをTodoテーブルから取得 -->
         SELECT * FROM Todo
     </select>
 
     <!-- 指定されたTodoアイテムの情報を更新するSQL文 -->
     <update id="updateTodo" parameterType="com.example.demo.entity.Todo">
+        <!-- 指定されたIDのTodoアイテムの情報を更新 -->
         UPDATE Todo
         SET task = #{task},
             completed = #{completed},
@@ -41,16 +46,18 @@
 
     <!-- 指定されたIDのTodoアイテムを削除するSQL文 -->
     <delete id="deleteTodoById" parameterType="int">
+        <!-- 指定されたIDのTodoアイテムをTodoテーブルから削除 -->
         DELETE FROM Todo WHERE id = #{id}
     </delete>
     
     <!-- 指定された旅行プランIDに関連するTodoアイテムを取得するSQL文 -->
     <select id="selectTodosByPlanId" parameterType="int" resultMap="todoResultMap">
-        SELECT t.*, p.*
+        <!-- 指定された旅行プランIDに関連するすべてのTodoアイテムを取得 -->
+        SELECT t.*, p.* 
         FROM Todo t
-        LEFT JOIN Plan p ON t.plan_id = p.id
-        WHERE t.plan_id = #{planId}
-        ORDER BY t.id;
+        LEFT JOIN Plan p ON t.plan_id = p.id  <!-- TodoとPlanをLEFT JOINで結合 -->
+        WHERE t.plan_id = #{planId}  <!-- 指定されたplan_idに関連するTodoアイテムを取得 -->
+        ORDER BY t.id;  <!-- TodoアイテムをID順に並べる -->
     </select>
 
 </mapper>

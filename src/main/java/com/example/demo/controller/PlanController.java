@@ -46,6 +46,14 @@ public class PlanController {
     private final PlanService planService;
     
 
+    /**
+     * ユーザーのホーム画面を表示します。
+     * セッションからユーザー情報を取得し、そのユーザーのプラン一覧を表示します。
+     * 
+     * @param request HTTPリクエスト
+     * @param model モデル属性
+     * @return ホーム画面のビュー名
+     */
     @GetMapping("/home")
     public String home(HttpServletRequest request, Model model) {
         // セッションからConnectUserを取得
@@ -63,7 +71,13 @@ public class PlanController {
         return "home"; // home.htmlを返す
     }
 
-    // プラン詳細画面の取得
+    /**
+     * 特定のプランの詳細情報を取得します。
+     *
+     * @param id プランのID
+     * @param model モデル属性
+     * @return プラン詳細画面のビュー名
+     */
     @GetMapping("/{id}")
     public String getPlanDetails(@PathVariable Integer id, Model model) {
         Plan plan = planService.getPlanDetails(id);
@@ -77,18 +91,35 @@ public class PlanController {
         return "detail";  // Detail.html というビュー名
     }
 
-    // プラン作成フォームへの遷移
+    /**
+     * 新規プラン作成フォームへの遷移を行います。
+     *
+     * @param planForm プラン作成フォーム
+     * @param model モデル属性
+     * @return プラン作成フォームのビュー名
+     */
     @GetMapping("/entry")
     public String entryPlan(@ModelAttribute PlanForm planForm, Model model) {
         return "planForm"; // planフォームへ遷移
     }
 
-    // プランの新規作成
+    /**
+     * 新しいプランを作成します。
+     * バリデーションチェックを行い、アイコン画像も同時にアップロードします。
+     *
+     * @param planForm プラン作成フォーム
+     * @param bindingResult バリデーション結果
+     * @param model モデル属性
+     * @param iconImage アイコン画像
+     * @param redirectAttributes リダイレクト属性
+     * @param request HTTPリクエスト
+     * @return リダイレクト先のビュー名
+     */
     @PostMapping("/create")
     public String createPlan(@ModelAttribute @Valid PlanForm planForm, BindingResult bindingResult, Model model,
     						@RequestParam(value = "iconImage", required = false) MultipartFile iconImage, 
     						RedirectAttributes redirectAttributes,HttpServletRequest request) {
-        // バリデーション（開始日、終了日、目的地など）
+        // バリデーション（開始日、終了日）
         if (planForm.getStartDate() != null && planForm.getEndDate() != null &&
                 planForm.getEndDate().isBefore(planForm.getStartDate())) {
             bindingResult.rejectValue("endDate", "error.endDate", "終了日は開始日より後でなければなりません。");
@@ -178,7 +209,13 @@ public class PlanController {
 
 
 
-    // プラン編集画面
+    /**
+     * プラン編集画面への遷移処理です。
+     *
+     * @param id 編集するプランのID
+     * @param model モデル属性
+     * @return プラン編集画面のビュー名
+     */
     @GetMapping("/edit/{id}")
     public String editPlan(@PathVariable("id") Integer id, Model model) {
         // IDを基にデータを取得（仮）
@@ -194,10 +231,26 @@ public class PlanController {
         return "planUpdate";
     }
 
+    /**
+     * 都道府県リストを取得します。
+     *
+     * @return 都道府県のリスト
+     */
     private List<String> getPrefectures() {
         return Arrays.asList("北海道", "青森", "岩手", "宮城", "秋田", "山形", "福島", "東京", "神奈川", "千葉", "埼玉", "茨城", "栃木", "群馬", "新潟", "富山", "石川", "福井", "山梨", "長野", "岐阜", "静岡", "愛知", "三重", "滋賀", "京都", "大阪", "兵庫", "奈良", "和歌山", "鳥取", "島根", "岡山", "広島", "山口", "徳島", "香川", "愛媛", "高知", "福岡", "佐賀", "長崎", "熊本", "大分", "宮崎", "鹿児島", "沖縄");
     }
 
+    /**
+     * プラン情報の更新処理です。
+     *
+     * @param id 更新するプランのID
+     * @param planForm 更新内容が入ったプランフォームオブジェクト
+     * @param bindingResult バリデーション結果オブジェクト 
+     * @param iconImage 新しいアイコン画像 
+     * @param model モデル属性 
+     * @param redirectAttributes リダイレクト属性 
+     * @return 更新後のリダイレクト先ビュー名 
+     */
     @PostMapping("/update/{id}")
     public String updatePlan(@PathVariable Integer id, 
                              @ModelAttribute @Valid PlanForm planForm,
@@ -287,6 +340,12 @@ public class PlanController {
         return "redirect:/plans/home";
     }
     
+    /**
+     * 指定されたIDのプラン情報を削除します。
+     *
+     * @param id 削除するプランのID
+     * @return リダイレクト先URL（ホーム画面）
+     */
     @PostMapping("/delete/{id}")
     public String deletePlan(@PathVariable Integer id) {
         planService.deletePlan(id);

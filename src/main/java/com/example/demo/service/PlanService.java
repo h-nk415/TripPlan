@@ -17,9 +17,15 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PlanService {
 
-	/** DI */
+    /** DI */
     private final PlanMapper planMapper;
-    
+
+    /**
+     * 指定されたIDの旅行プランの詳細情報を取得します。
+     * 
+     * @param id 取得したい旅行プランのID
+     * @return 取得した旅行プランの詳細情報
+     */
     public Plan getPlanDetails(int id) {
         return planMapper.selectPlanDetails(id);
     }
@@ -44,9 +50,10 @@ public class PlanService {
     }
 
     /**
-     * すべての旅行プランを取得します。
+     * 指定されたユーザーIDに関連するすべての旅行プランを取得します。
      * 
-     * @return すべての旅行プランのリスト
+     * @param userId ユーザーのID
+     * @return ユーザーに関連するすべての旅行プランのリスト
      */
     public List<Plan> getPlansByUserId(Integer userId) {
         return planMapper.selectAllPlans(userId);

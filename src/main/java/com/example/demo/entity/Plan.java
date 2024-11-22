@@ -9,17 +9,28 @@ import lombok.NoArgsConstructor;
 
 /**
  * 旅行プランを表すクラスです。
- * 旅行のタイトル、詳細、開始日、終了日、行先を管理します。
+ * 旅行のタイトル、詳細、開始日、終了日、行先、スケジュール、持ち物リストを管理します。
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Plan {
 	
-	private List<Schedule> schedules;
-	private List<Item> items;
-	private List<Item> todos;
-	
+    /**
+     * プランに関連するスケジュールのリスト
+     */
+    private List<Schedule> schedules;
+
+    /**
+     * プランに関連する持ち物リストのアイテムのリスト
+     */
+    private List<Item> items;
+
+    /**
+     * プランに関連するTODOリストのアイテムのリスト
+     */
+    private List<Item> todos;
+    
     /** 
      * 旅行プランのID（主キー）
      */

@@ -3,51 +3,59 @@
 
 <mapper namespace="com.example.demo.repository.ScheduleMapper">
 
-    <!-- resultMapの定義 -->
+    <!-- ScheduleエンティティをマッピングするresultMap -->
     <resultMap id="scheduleResultMap" type="com.example.demo.entity.Schedule">
+        <!-- 各カラムをScheduleエンティティのプロパティにマッピング -->
         <id property="id" column="id" />
         <result property="scheduleTime" column="schedule_time" />
         <result property="event" column="event" />
         <result property="memo" column="memo" />
         <result property="url" column="url" />
-        <result property="flag" column="flag" /> <!-- 追加: flagカラム -->
+        <result property="flag" column="flag" /> 
+        
+        <!-- Planエンティティとの関連を設定（plan_idを使って、Plan情報を取得） -->
         <association property="plan" column="plan_id" javaType="com.example.demo.entity.Plan"
                       select="com.example.demo.repository.PlanMapper.selectPlanById" />
     </resultMap>
 
     <!-- 新しいスケジュールを挿入するSQL文 -->
     <insert id="insertSchedule" parameterType="com.example.demo.entity.Schedule">
+        <!-- 新しいスケジュールをscheduleテーブルに挿入 -->
         INSERT INTO schedule (schedule_time, event, memo, url, flag, plan_id)
-        VALUES (#{scheduleTime}, #{event}, #{memo}, #{url}, #{flag}, #{plan.id}) <!-- flagを追加 -->
+        VALUES (#{scheduleTime}, #{event}, #{memo}, #{url}, #{flag}, #{plan.id})
     </insert>
 
     <!-- 指定されたIDのスケジュールを取得するSQL文 -->
     <select id="selectScheduleById" parameterType="int" resultMap="scheduleResultMap">
+        <!-- 指定されたIDのスケジュールをscheduleテーブルから取得 -->
         SELECT * FROM schedule WHERE id = #{id}
     </select>
 
     <!-- 指定された旅行プランIDに関連するスケジュールを取得するSQL文 -->
     <select id="selectSchedulesByPlanId" parameterType="int" resultMap="scheduleResultMap">
+        <!-- 指定された旅行プランIDに関連するすべてのスケジュールを取得 -->
         SELECT s.*, p.* 
         FROM schedule s
-        LEFT JOIN plan p ON s.plan_id = p.id
-        WHERE s.plan_id = #{planId}
+        LEFT JOIN plan p ON s.plan_id = p.id  <!-- scheduleとplanをLEFT JOINで結合 -->
+        WHERE s.plan_id = #{planId}  <!-- 指定されたplan_idに関連するスケジュールを取得 -->
     </select>
 
     <!-- 指定されたスケジュールの情報を更新するSQL文 -->
     <update id="updateSchedule" parameterType="com.example.demo.entity.Schedule">
+        <!-- 指定されたIDのスケジュール情報を更新 -->
         UPDATE schedule
         SET schedule_time = #{scheduleTime},
             event = #{event},
             memo = #{memo},
             url = #{url},
-            flag = #{flag}, <!-- flagを追加 -->
-            plan_id = #{plan.id}
-        WHERE id = #{id}
+            flag = #{flag}, 
+            plan_id = #{plan.id}  <!-- plan_idを更新 -->
+        WHERE id = #{id}  <!-- 指定されたIDのスケジュールを更新 -->
     </update>
 
     <!-- 指定されたIDのスケジュールを削除するSQL文 -->
     <delete id="deleteScheduleById" parameterType="int">
+        <!-- 指定されたIDのスケジュールをscheduleテーブルから削除 -->
         DELETE FROM schedule WHERE id = #{id}
     </delete>
 

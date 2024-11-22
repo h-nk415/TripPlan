@@ -13,8 +13,14 @@ import com.example.demo.entity.Plan;
  */
 @Mapper
 public interface PlanMapper {
-	
-	Plan selectPlanDetails(int id);
+    
+    /**
+     * 指定されたIDに対応する旅行プランの詳細情報を取得します。
+     * 
+     * @param id 取得したい旅行プランのID
+     * @return 指定されたIDに対応する旅行プランの詳細情報
+     */
+    Plan selectPlanDetails(int id);
 
     /**
      * 新しい旅行プランをデータベースに挿入します。
@@ -34,6 +40,7 @@ public interface PlanMapper {
     /**
      * データベース内のすべての旅行プランを取得します。
      * 
+     * @param id 取得する旅行プランのユーザーID（関連するユーザーIDによる絞り込み）
      * @return すべての旅行プランのリスト
      */
     List<Plan> selectAllPlans(int id);

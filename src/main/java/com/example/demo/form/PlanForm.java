@@ -12,13 +12,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 旅行プランを管理するフォームクラス
+ * 旅行プランを管理するフォームクラスです。
+ * このクラスは、旅行プランの基本情報（タイトル、詳細、日付、行き先）を管理し、ユーザーからの入力を受け取ります。
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class PlanForm {
-    
+
+    /**
+     * コンストラクタ。PlanエンティティからPlanFormを生成します。
+     * @param plan 旅行プランのエンティティオブジェクト
+     */
     public PlanForm(Plan plan) {
         this.id = plan.getId();
         this.title = plan.getTitle();
@@ -34,6 +39,7 @@ public class PlanForm {
 
     /** 
      * 旅行プランのタイトル
+     * タイトルは必須で、1文字以上50文字以内で入力可能です。
      */
     @NotNull(message = "タイトルは必須です。")
     @Size(min = 1, max = 50, message = "タイトルは1文字以上50文字以内で入力してください。")
@@ -41,6 +47,7 @@ public class PlanForm {
 
     /** 
      * 旅行プランの詳細情報
+     * 詳細は必須で、1文字以上255文字以内で入力可能です。
      */
     @NotNull(message = "詳細は必須です。")
     @Size(min = 1, max = 255, message = "詳細は1文字以上255文字以内で入力してください。")
@@ -48,41 +55,54 @@ public class PlanForm {
 
     /** 
      * 旅行の開始日
+     * 開始日は必須です。
      */
     @NotNull(message = "開始日は必須です。")
     private LocalDate startDate;
 
     /** 
      * 旅行の終了日
+     * 終了日は必須です。
      */
     @NotNull(message = "終了日は必須です。")
     private LocalDate endDate;
 
     /** 
      * 旅行先の1つ目の行き先
+     * 行き先1は必須です。
      */
     @NotNull(message = "1つ目の行き先は必須です。")
     private String destination1;
 
     /** 
      * 旅行先の2つ目の行き先
+     * 行き先2は任意です。
      */
     private String destination2;
 
     /** 
      * 旅行先の3つ目の行き先
+     * 行き先3は任意です。
      */
     private String destination3;
-    
+
     private Integer usersId;
 
-    // startDateをyyyy-MM-ddの文字列で保持するためのフィールド
+    /** 
+     * 開始日を文字列形式で保持するためのフィールド（yyyy-MM-dd形式）
+     */
     private String startDateString;
 
-    // endDateをyyyy-MM-ddの文字列で保持するためのフィールド
+    /** 
+     * 終了日を文字列形式で保持するためのフィールド（yyyy-MM-dd形式）
+     */
     private String endDateString;
 
-    // startDateStringを設定したときに、startDateも更新する
+    /**
+     * startDateStringが設定されたときに、startDateも更新します。
+     * 
+     * @param startDateString 開始日を示す文字列（yyyy-MM-dd形式）
+     */
     public void setStartDateString(String startDateString) {
         this.startDateString = startDateString;
         if (startDateString != null && !startDateString.isEmpty()) {
@@ -90,7 +110,11 @@ public class PlanForm {
         }
     }
 
-    // endDateStringを設定したときに、endDateも更新する
+    /**
+     * endDateStringが設定されたときに、endDateも更新します。
+     * 
+     * @param endDateString 終了日を示す文字列（yyyy-MM-dd形式）
+     */
     public void setEndDateString(String endDateString) {
         this.endDateString = endDateString;
         if (endDateString != null && !endDateString.isEmpty()) {
@@ -98,7 +122,11 @@ public class PlanForm {
         }
     }
 
-    // startDateが設定されている場合に、その文字列形式を返す
+    /**
+     * startDateが設定されている場合に、その文字列形式（yyyy-MM-dd）を返します。
+     * 
+     * @return startDateの文字列形式
+     */
     public String getStartDateString() {
         if (this.startDate != null) {
             return this.startDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -106,7 +134,11 @@ public class PlanForm {
         return this.startDateString;
     }
 
-    // endDateが設定されている場合に、その文字列形式を返す
+    /**
+     * endDateが設定されている場合に、その文字列形式（yyyy-MM-dd）を返します。
+     * 
+     * @return endDateの文字列形式
+     */
     public String getEndDateString() {
         if (this.endDate != null) {
             return this.endDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));

@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ScheduleService {
 
-	/** DI */
+    /** DI */
     private final ScheduleMapper scheduleMapper;
 
     /**

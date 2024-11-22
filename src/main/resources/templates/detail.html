@@ -196,8 +196,6 @@
 		    color: #5B9A9E;
 		    font-size: 18px;
 		}
-		/* 時間列スタイル */
-		/* 時間セル */
 		.time-cell {
 		    width: 80px;
 		    text-align: left;
@@ -206,8 +204,6 @@
 		    padding-left: 10px;
 		    font-weight: bold;
 		}
-		
-		/* イベントセル */
 		.event-cell {
 		    text-align: left;
 		    font-family: 'Noto Sans JP', sans-serif;
@@ -215,8 +211,6 @@
 		    vertical-align: top;
 		    position: relative;
 		}
-		
-		/* 縦線のデザイン */
 		.line {
 		    display: inline-block;
 		    color: #5F7D8A;
@@ -224,102 +218,129 @@
 		    font-size: 18px;
 		    line-height: 1.6;
 		}
-		
-
 
 
     </style>
 </head>
 <body>
+    <!-- ヘッダー部分 -->
     <div class="header">
-        <a 	th:href="@{/plans/home}">
+        <!-- ロゴとホームリンク -->
+        <a th:href="@{/plans/home}">
             <img src="/image/logo.png" alt="ロゴ">
         </a>
         <h1>旅行プラン</h1>
-		<div class="button-container">
-			<form th:action="@{/plans/edit/{id}(id=${plan.id})}" method="get" style="display:inline;">
-			    
-			    <button type="submit" class="delete-link" style="background: none; border: none; color: #5B9A9E; text-decoration: none; font-family: 'Noto Sans JP', sans-serif; font-size: 16px; cursor: pointer;;">
-			        旅行プランを編集
-			    </button>
-			</form>
-			<span style="margin-top: 7px;">|</span>
-			<form th:action="@{/plans/delete/{id}(id=${plan.id})}" method="post" style="display:inline;">
-			    <input type="hidden" name="_method" value="delete">
-			    <button type="submit" class="delete-link" style="background: none; border: none; color: #5B9A9E; text-decoration: none; font-family: 'Noto Sans JP', sans-serif; font-size: 16px; cursor: pointer;" onclick="return confirm('本当に削除しますか？');">
-			        旅行プランを削除
-			    </button>
-			</form>
-		</div>
+
+        <!-- 編集と削除ボタン -->
+        <div class="button-container">
+            <!-- 旅行プランを編集するボタン -->
+            <form th:action="@{/plans/edit/{id}(id=${plan.id})}" method="get" style="display:inline;">
+                <button type="submit" class="delete-link" style="background: none; border: none; color: #5B9A9E; text-decoration: none; font-family: 'Noto Sans JP', sans-serif; font-size: 16px; cursor: pointer;">
+                    旅行プランを編集
+                </button>
+            </form>
+
+            <!-- 削除ボタン -->
+            <span style="margin-top: 7px;">|</span>
+            <form th:action="@{/plans/delete/{id}(id=${plan.id})}" method="post" style="display:inline;">
+                <input type="hidden" name="_method" value="delete">
+                <button type="submit" class="delete-link" style="background: none; border: none; color: #5B9A9E; text-decoration: none; font-family: 'Noto Sans JP', sans-serif; font-size: 16px; cursor: pointer;" onclick="return confirm('本当に削除しますか？');">
+                    旅行プランを削除
+                </button>
+            </form>
+        </div>
+
+        <!-- プラン一覧に戻るボタン -->
         <a th:href="@{/plans/home}" class="back-button">プラン一覧に戻る</a>
     </div>
+
+    <!-- コンテナ部分 -->
     <div class="container">
         <div class="title-wrapper">
+            <!-- プランのタイトル表示 -->
             <h1 th:text="${plan.title}"></h1>
+            
+            <!-- 目的地表示 -->
             <div class="destination-badge" th:text="${plan.destination1}"></div>
             <div th:if="${plan.destination2}" class="destination-badge" th:text="${plan.destination2}"></div>
             <div th:if="${plan.destination3}" class="destination-badge" th:text="${plan.destination3}"></div>
+
+            <!-- 旅行の期間表示 -->
             <div class="date-range">
                 <span th:text="${#temporals.format(plan.startDate, 'yyyy年MM月dd日')}"></span>～
                 <span th:text="${#temporals.format(plan.endDate, 'yyyy年MM月dd日')}"></span>
             </div>
-			
-			<div class="button-container" style="margin-left: auto;">
-			        <a th:href="@{/items/entry/{id}(id=${plan.id})}">
-			            <button class="highlight-button">持ち物リスト</button>
-			        </a>
-			        <a th:href="@{/todos/entry/{id}(id=${plan.id})}">
-			            <button class="highlight-button">TODOリスト</button>
-			        </a>
-			    </div>
+
+            <!-- 持ち物リストとTODOリストのリンクボタン -->
+            <div class="button-container" style="margin-left: auto;">
+                <a th:href="@{/items/entry/{id}(id=${plan.id})}">
+                    <button class="highlight-button">持ち物リスト</button>
+                </a>
+                <a th:href="@{/todos/entry/{id}(id=${plan.id})}">
+                    <button class="highlight-button">TODOリスト</button>
+                </a>
+            </div>
         </div>
-		<br>
+
+        <br>
+
+        <!-- スケジュール部分 -->
         <div class="table-wrapper">
-			<div class="button-container">
-            <h3>スケジュール</h3>
-			<a th:href="@{/schedules/entry/{id}(id=${plan.id})}">
-			    <button>＋ スケジュールを新規作成</button>
-			</a>
-			</div>
-			<br>
-			<table>
-			    <tbody>
-			        <th:block th:each="schedule, iterStat : ${plan.schedules}">
-			            <!-- 日付が変わるたびに日付行を追加 -->
-			            <tr th:if="${iterStat.index == 0 || !#temporals.format(schedule.scheduleTime, 'yyyy-MM-dd').equals(#temporals.format(plan.schedules[iterStat.index - 1].scheduleTime, 'yyyy-MM-dd'))}" class="date-row">
-			                <td colspan="4" th:text="${#temporals.format(schedule.scheduleTime, 'yyyy年MM月dd日 (E)')}"></td>
-			            </tr>
-			            <!-- 時間 -->
-			            <tr>
-			                <td class="time-cell" th:text="${#temporals.format(schedule.scheduleTime, 'HH:mm')}"></td>
-							
-			            </tr>
-			            <!-- 縦線とイベント -->
-			            <tr>
-			                <td class="event-cell">
-								<span class="event-icon">
-								            <!-- アイコンを表示 -->
-								            <i class="fas" th:class="${schedule.flag == '食事' ? 'fas fa-utensils' :
-								                                    schedule.flag == '移動' ? 'fas fa-walking' :
-								                                    schedule.flag == '観光' ? 'fas fa-camera' :
-								                                    schedule.flag == '宿泊' ? 'fas fa-bed' :
-								                                    schedule.flag == 'ショッピング' ? 'fas fa-shopping-bag' : ''}"></i>
-								        </span>
-								<td>
-			                    <a th:href="@{/schedules/edit/{id}(id=${schedule.id})}" th:text="${schedule.event}" class="event-link"></a>
-								</td>
-								<td>
-								<a th:text="${schedule.memo}" style="color: #666; font-size: 0.9em; margin-left: 15px;"></a>
-			                </td>
-							<td>
-								<a th:href="${schedule.url}" th:text="${schedule.url}" style="color: #666; font-size: 0.9em; margin-left: 15px;" target="_blank"></a>
-							    </td>
-			            </tr>
-			        </th:block>
-			    </tbody>
-			</table>
+            <div class="button-container">
+                <h3>スケジュール</h3>
+                <!-- 新しいスケジュールを追加するリンクボタン -->
+                <a th:href="@{/schedules/entry/{id}(id=${plan.id})}">
+                    <button>＋ スケジュールを新規作成</button>
+                </a>
+            </div>
+            <br>
+
+            <!-- スケジュールテーブル -->
+            <table>
+                <tbody>
+                    <th:block th:each="schedule, iterStat : ${plan.schedules}">
+                        <!-- 日付が変わるたびに日付行を追加 -->
+                        <tr th:if="${iterStat.index == 0 || !#temporals.format(schedule.scheduleTime, 'yyyy-MM-dd').equals(#temporals.format(plan.schedules[iterStat.index - 1].scheduleTime, 'yyyy-MM-dd'))}" class="date-row">
+                            <td colspan="4" th:text="${#temporals.format(schedule.scheduleTime, 'yyyy年MM月dd日 (E)')}"></td>
+                        </tr>
+                        
+                        <!-- 時間表示 -->
+                        <tr>
+                            <td class="time-cell" th:text="${#temporals.format(schedule.scheduleTime, 'HH:mm')}"></td>
+                        </tr>
+                        
+                        <!-- イベントとアイコン表示 -->
+                        <tr>
+                            <td class="event-cell">
+                                <span class="event-icon">
+                                    <!-- アイコンの切り替え: 各イベントに対応するアイコンを表示 -->
+                                    <i class="fas" th:class="${schedule.flag == '食事' ? 'fas fa-utensils' :
+                                                            schedule.flag == '移動' ? 'fas fa-walking' :
+                                                            schedule.flag == '観光' ? 'fas fa-camera' :
+                                                            schedule.flag == '宿泊' ? 'fas fa-bed' :
+                                                            schedule.flag == 'ショッピング' ? 'fas fa-shopping-bag' : ''}"></i>
+                                </span>
+                            </td>
+                            <!-- イベント名のリンク -->
+                            <td>
+                                <a th:href="@{/schedules/edit/{id}(id=${schedule.id})}" th:text="${schedule.event}" class="event-link"></a>
+                            </td>
+                            <!-- メモ表示 -->
+                            <td>
+                                <a th:text="${schedule.memo}" style="color: #666; font-size: 0.9em; margin-left: 15px;"></a>
+                            </td>
+                            <!-- URL表示 -->
+                            <td>
+                                <a th:href="${schedule.url}" th:text="${schedule.url}" style="color: #666; font-size: 0.9em; margin-left: 15px;" target="_blank"></a>
+                            </td>
+                        </tr>
+                    </th:block>
+                </tbody>
+            </table>
         </div>
     </div>
+
+    <!-- フッター部分 -->
     <div class="footer">
         <p>© 2024 旅行プランサイト 旅びより | 利用規約 | お問い合わせ</p>
     </div>

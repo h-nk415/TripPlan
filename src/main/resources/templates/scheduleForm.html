@@ -6,212 +6,213 @@
     <title>スケジュール登録</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-mHcQHtNnk9P/7daCxM4D9i8X7u1L6o/Qh3ZjrPpC71UzrhZJYljsAvI03FV0KnUl" crossorigin="anonymous">
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-			background-image: url('/image/header.jpg');
-            font-family: 'Noto Sans JP', sans-serif;
-            background-color: #f7f9fc;
-            color: #333;
-            line-height: 1.6;
-        }
-        .header {
-            background-color: #ffffff;
-            border-bottom: 1px solid #e9ecef;
-            padding: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-        }
-        .header img {
-            height: 40px;
-            margin-right: 20px;
-        }
-        .header h1 {
-            color: #495057;
-            font-weight: 300;
-            font-size: 1.8rem;
-        }
-        .container {
-            max-width: 500px;
-            margin: 2rem auto;
-            padding: 2rem;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        form {
-            display: grid;
-            gap: 1.5rem;
-        }
-        label {
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-        input[type="text"],
-        input[type="url"],
-        input[type="datetime-local"],
-        textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #e9ecef;
-            border-radius: 5px;
-            font-family: 'Noto Sans JP', sans-serif;
-        }
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-        button {
-			font-family: 'Noto Sans JP', sans-serif;
-            background-color: #86C7D6;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        button:hover {
-            background-color: #6BA7B6;
-            transform: translateY(-3px);
-        }
-        .error {
-            color: #E74C3C;
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-        }
-        .back-link {
-            display: inline-block;
-            margin-top: 2rem;
-            color: #86C7D6;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        .back-link:hover {
-            color: #6BA7B6;
-        }
-		.footer {
-		            
-		            bottom: 0;
-		            width: 100%;
-		            background-color: rgb(192, 192, 192);
-		            color: white;
-		            padding: 1rem;
-		            text-align: center;
-		            font-size: 0.9rem;
-		        }
-		        .footer a {
-		            color: #86C7D6;
-		            text-decoration: none;
-		            margin-left: 10px;
-		        }
-		        .footer a:hover {
-		            text-decoration: underline;
-		        }
-				/* 予定の種類選択欄のスタイル */
-				#flag {
-				    width: 100%;
-				    padding: 10px;
-				    border: 1px solid #e9ecef;
-				    border-radius: 5px;
-				    font-family: 'Noto Sans JP', sans-serif;
-				    font-size: 1rem;
-				    background-color: #ffffff;
-				    transition: border 0.3s ease, background-color 0.3s ease;
-				}
-				
-				/* フォーカス時にボーダーの色を変更 */
-				#flag:focus {
-				    border-color: #86C7D6;
-				    background-color: #f1f8fd;
-				    outline: none;
-				}
-				
-				/* 選択肢にマウスオーバー時のスタイル */
-				#flag option:hover {
-				    background-color: #f1f8fd;
-				}
-				
-				/* 選択肢全体のスタイル */
-				#flag option {
-				    padding: 10px;
-				    font-size: 1rem;
-				}
-				
-				/* アイコンを追加した場合のスタイル */
-				#flag {
-				    -webkit-appearance: none;
-				    -moz-appearance: none;
-				    appearance: none;
-				    background: url('/image/arrow-down.svg') no-repeat right 10px center;
-				    background-size: 16px 16px;
-				    padding-right: 35px; /* アイコンのスペースを確保 */
-				}
+	<style>
+	    * {
+	        box-sizing: border-box;
+	        margin: 0;
+	        padding: 0;
+	    }
+	    body {
+	        background-image: url('/image/header.jpg');
+	        font-family: 'Noto Sans JP', sans-serif;
+	        background-color: #f7f9fc;
+	        color: #333;
+	        line-height: 1.6;
+	    }
+	    .header {
+	        background-color: #ffffff;
+	        border-bottom: 1px solid #e9ecef;
+	        padding: 1.5rem;
+	        display: flex;
+	        align-items: center;
+	        justify-content: flex-start;
+	    }
+	    .header img {
+	        height: 40px;
+	        margin-right: 20px;
+	    }
+	    .header h1 {
+	        color: #495057;
+	        font-weight: 300;
+	        font-size: 1.8rem;
+	    }
+	    .container {
+	        max-width: 500px;
+	        margin: 2rem auto;
+	        padding: 2rem;
+	        background: white;
+	        border-radius: 12px;
+	        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+	    }
+	    form {
+	        display: grid;
+	        gap: 1.5rem;
+	    }
+	    label {
+	        font-weight: 700;
+	        margin-bottom: 0.5rem;
+	        display: block;
+	    }
+	    input[type="text"],
+	    input[type="url"],
+	    input[type="datetime-local"],
+	    textarea {
+	        width: 100%;
+	        padding: 10px;
+	        border: 1px solid #e9ecef;
+	        border-radius: 5px;
+	        font-family: 'Noto Sans JP', sans-serif;
+	    }
+	    textarea {
+	        resize: vertical;
+	        min-height: 100px;
+	    }
+	    button {
+	        font-family: 'Noto Sans JP', sans-serif;
+	        background-color: #86C7D6;
+	        color: white;
+	        border: none;
+	        padding: 12px 24px;
+	        border-radius: 50px;
+	        font-size: 1rem;
+	        cursor: pointer;
+	        transition: all 0.3s ease;
+	        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+	    }
+	    button:hover {
+	        background-color: #6BA7B6;
+	        transform: translateY(-3px);
+	    }
+	    .error {
+	        color: #E74C3C;
+	        font-size: 0.9rem;
+	        margin-top: 0.5rem;
+	    }
+	    .back-link {
+	        display: inline-block;
+	        margin-top: 2rem;
+	        color: #86C7D6;
+	        text-decoration: none;
+	        transition: color 0.3s ease;
+	    }
+	    .back-link:hover {
+	        color: #6BA7B6;
+	    }
+	    .footer {
+	        bottom: 0;
+	        width: 100%;
+	        background-color: rgb(192, 192, 192);
+	        color: white;
+	        padding: 1rem;
+	        text-align: center;
+	        font-size: 0.9rem;
+	    }
+	    .footer a {
+	        color: #86C7D6;
+	        text-decoration: none;
+	        margin-left: 10px;
+	    }
+	    .footer a:hover {
+	        text-decoration: underline;
+	    }
+	    #flag {
+	        width: 100%;
+	        padding: 10px;
+	        border: 1px solid #e9ecef;
+	        border-radius: 5px;
+	        font-family: 'Noto Sans JP', sans-serif;
+	        font-size: 1rem;
+	        background-color: #ffffff;
+	        transition: border 0.3s ease, background-color 0.3s ease;
+	    }
+	    #flag:focus {
+	        border-color: #86C7D6;
+	        background-color: #f1f8fd;
+	        outline: none;
+	    }
+	    #flag option:hover {
+	        background-color: #f1f8fd;
+	    }
+	    #flag option {
+	        padding: 10px;
+	        font-size: 1rem;
+	    }
+	    #flag {
+	        -webkit-appearance: none;
+	        -moz-appearance: none;
+	        appearance: none;
+	        background: url('/image/arrow-down.svg') no-repeat right 10px center;
+	        background-size: 16px 16px;
+	        padding-right: 35px;
+	    }
+	</style>
 
-				
-    </style>
 </head>
 <body>
+    <!-- ヘッダー部分 -->
     <div class="header">
-		<a th:href="@{/plans/home}">
-        <img src="/image/logo.png" alt="ロゴ">
-		</a>
+        <a th:href="@{/plans/home}">
+            <img src="/image/logo.png" alt="ロゴ">
+        </a>
         <h1>スケジュール登録</h1>
     </div>
 
+    <!-- コンテンツ部分 -->
     <div class="container">
+        <!-- スケジュール登録フォーム -->
         <form th:action="@{/schedules/create}" method="post" enctype="multipart/form-data" th:object="${scheduleForm}">
+            <!-- 隠しフィールド: プランID -->
             <input type="hidden" th:field="*{plan.id}">
 
+            <!-- 時間入力 -->
             <div>
                 <label for="scheduleTime">時間:</label>
                 <input type="datetime-local" id="scheduleTime" th:field="*{scheduleTime}" required>
                 <span th:if="${#fields.hasErrors('scheduleTime')}" th:errors="*{scheduleTime}" class="error"></span>
             </div>
 
+            <!-- 予定内容入力 -->
             <div>
                 <label for="event">予定内容:</label>
                 <input type="text" id="event" th:field="*{event}" required>
                 <span th:if="${#fields.hasErrors('event')}" th:errors="*{event}" class="error"></span>
             </div>
 
+            <!-- メモ入力 -->
             <div>
                 <label for="memo">メモ:</label>
                 <textarea id="memo" th:field="*{memo}"></textarea>
             </div>
 
+            <!-- 関連URL入力 -->
             <div>
                 <label for="url">関連URL:</label>
                 <input type="url" id="url" th:field="*{url}">
             </div>
-			
-			<div>
-			                <label for="flag">予定の種類:</label>
-			                <select id="flag" name="flag">
-			                    <option value="食事">食事</option>
-			                    <option value="移動">移動</option>
-			                    <option value="観光">観光</option>
-			                    <option value="宿泊">宿泊</option>
-			                    <option value="ショッピング">ショッピング</option>
-			                </select>
-			            </div>
 
+            <!-- 予定の種類選択 -->
+            <div>
+                <label for="flag">予定の種類:</label>
+                <select id="flag" name="flag">
+                    <option value="食事">食事</option>
+                    <option value="移動">移動</option>
+                    <option value="観光">観光</option>
+                    <option value="宿泊">宿泊</option>
+                    <option value="ショッピング">ショッピング</option>
+                </select>
+            </div>
+
+            <!-- 保存ボタン -->
             <button type="submit">保存</button>
         </form>
 
+        <!-- 戻るリンク -->
         <a href="#" onclick="window.history.back();" class="back-link">戻る</a>
     </div>
-	
-	<div class="footer">
-	        <p>© 2024 旅行プランサイト 旅びより　|　利用規約　|　お問い合わせ</p>
-	    </div>
+
+    <!-- フッター部分 -->
+    <div class="footer">
+        <p>© 2024 旅行プランサイト 旅びより　|　利用規約　|　お問い合わせ</p>
+    </div>
 </body>
 </html>

@@ -6,148 +6,169 @@
     <title>旅行プラン更新</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-mHcQHtNnk9P/7daCxM4D9i8X7u1L6o/Qh3ZjrPpC71UzrhZJYljsAvI03FV0KnUl" crossorigin="anonymous">
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-			background-image: url('/image/header.jpg');
-            font-family: 'Noto Sans JP', sans-serif;
-            background-color: #f7f9fc;
-            color: #333;
-            line-height: 1.6;
-        }
-        .header {
-            background-color: #ffffff;
-            border-bottom: 1px solid #e9ecef;
-            padding: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-        }
-        .header img {
-            height: 40px;
-            margin-right: 20px;
-        }
-        .header h1 {
-            color: #495057;
-            font-weight: 300;
-            font-size: 1.8rem;
-        }
-        .container {
-            max-width: 600px;
-            margin: 2rem auto;
-            padding: 2rem;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        form {
-            display: grid;
-            gap: 1.5rem;
-        }
-        label {
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            display: block;
-        }
-        input[type="text"],
-        input[type="date"],
-        textarea,
-        select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #e9ecef;
-            border-radius: 5px;
-            font-family: 'Noto Sans JP', sans-serif;
-        }
-        button {
-			font-family: 'Noto Sans JP', sans-serif;
-            background-color: #86C7D6;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        button:hover {
-            background-color: #6BA7B6;
-            transform: translateY(-3px);
-        }
-        .error {
-            color: #E74C3C;
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-        }
-        .back-link {
-            display: inline-block;
-            margin-top: 2rem;
-            color: #86C7D6;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        .back-link:hover {
-            color: #6BA7B6;
-        }
-		.footer {
-		            
-		            bottom: 0;
-		            width: 100%;
-		            background-color: rgb(192, 192, 192);
-		            color: white;
-		            padding: 1rem;
-		            text-align: center;
-		            font-size: 0.9rem;
-		        }
-		        .footer a {
-		            color: #86C7D6;
-		            text-decoration: none;
-		            margin-left: 10px;
-		        }
-		        .footer a:hover {
-		            text-decoration: underline;
-		        }
-    </style>
+	<style>
+	    * {
+	        box-sizing: border-box;
+	        margin: 0;
+	        padding: 0;
+	    }
+	
+	    body {
+	        background-image: url('/image/header.jpg');
+	        font-family: 'Noto Sans JP', sans-serif;
+	        background-color: #f7f9fc;
+	        color: #333;
+	        line-height: 1.6;
+	    }
+	
+	    .header {
+	        background-color: #ffffff;
+	        border-bottom: 1px solid #e9ecef;
+	        padding: 1.5rem;
+	        display: flex;
+	        align-items: center;
+	        justify-content: flex-start;
+	    }
+	
+	    .header img {
+	        height: 40px;
+	        margin-right: 20px;
+	    }
+	
+	    .header h1 {
+	        color: #495057;
+	        font-weight: 300;
+	        font-size: 1.8rem;
+	    }
+	
+	    .container {
+	        max-width: 600px;
+	        margin: 2rem auto;
+	        padding: 2rem;
+	        background: white;
+	        border-radius: 12px;
+	        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+	    }
+	
+	    form {
+	        display: grid;
+	        gap: 1.5rem;
+	    }
+	
+	    label {
+	        font-weight: 700;
+	        margin-bottom: 0.5rem;
+	        display: block;
+	    }
+	
+	    input[type="text"],
+	    input[type="date"],
+	    textarea,
+	    select {
+	        width: 100%;
+	        padding: 10px;
+	        border: 1px solid #e9ecef;
+	        border-radius: 5px;
+	        font-family: 'Noto Sans JP', sans-serif;
+	    }
+	
+	    button {
+	        font-family: 'Noto Sans JP', sans-serif;
+	        background-color: #86C7D6;
+	        color: white;
+	        border: none;
+	        padding: 12px 24px;
+	        border-radius: 50px;
+	        font-size: 1rem;
+	        cursor: pointer;
+	        transition: all 0.3s ease;
+	        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+	    }
+	
+	    button:hover {
+	        background-color: #6BA7B6;
+	        transform: translateY(-3px);
+	    }
+	
+	    .error {
+	        color: #E74C3C;
+	        font-size: 0.9rem;
+	        margin-top: 0.5rem;
+	    }
+	
+	    .back-link {
+	        display: inline-block;
+	        margin-top: 2rem;
+	        color: #86C7D6;
+	        text-decoration: none;
+	        transition: color 0.3s ease;
+	    }
+	
+	    .back-link:hover {
+	        color: #6BA7B6;
+	    }
+	
+	    .footer {
+	        bottom: 0;
+	        width: 100%;
+	        background-color: rgb(192, 192, 192);
+	        color: white;
+	        padding: 1rem;
+	        text-align: center;
+	        font-size: 0.9rem;
+	    }
+	
+	    .footer a {
+	        color: #86C7D6;
+	        text-decoration: none;
+	        margin-left: 10px;
+	    }
+	
+	    .footer a:hover {
+	        text-decoration: underline;
+	    }
+	</style>
+
 </head>
 <body>
     <div class="header">
-		<a th:href="@{/plans/home}">
-        <img src="/image/logo.png" alt="ロゴ">
-		</a>
+        <a th:href="@{/plans/home}">
+            <img src="/image/logo.png" alt="ロゴ">
+        </a>
         <h1>旅行プラン更新</h1>
     </div>
 
     <div class="container">
-        <form th:action="@{/plans/update/{id}(id=${planForm.id})}" method="post" th:object="${planForm}"		enctype="multipart/form-data">
+        <form th:action="@{/plans/update/{id}(id=${planForm.id})}" method="post" th:object="${planForm}" enctype="multipart/form-data">
+            <!-- タイトル入力フィールド -->
             <div>
                 <label for="title">タイトル:</label>
                 <input type="text" id="title" th:field="*{title}" required>
                 <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error"></span>
             </div>
 
+            <!-- 詳細入力フィールド -->
             <div>
                 <label for="titleDetail">詳細:</label>
                 <textarea id="titleDetail" th:field="*{titleDetail}" required></textarea>
                 <span th:if="${#fields.hasErrors('titleDetail')}" th:errors="*{titleDetail}" class="error"></span>
             </div>
 
+            <!-- 開始日入力フィールド -->
             <div>
                 <label for="startDate">開始日:</label>
                 <input type="date" id="startDate" th:field="*{startDateString}" required>
                 <span th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" class="error"></span>
             </div>
 
+            <!-- 終了日入力フィールド -->
             <div>
                 <label for="endDate">終了日:</label>
                 <input type="date" id="endDate" th:field="*{endDateString}" required>
                 <span th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}" class="error"></span>
             </div>
 
+            <!-- 行き先1選択フィールド -->
             <div>
                 <label for="destination1">行き先1:</label>
                 <select id="destination1" th:field="*{destination1}" required>
@@ -155,10 +176,12 @@
                     <option th:each="prefecture : ${prefectures}" 
                             th:value="${prefecture}" 
                             th:text="${prefecture}" 
-                            th:selected="${prefecture == planForm.destination1}"></option>
+                            th:selected="${prefecture == planForm.destination1}">
+                    </option>
                 </select>
             </div>
 
+            <!-- 行き先2選択フィールド -->
             <div>
                 <label for="destination2">行き先2 (任意):</label>
                 <select id="destination2" th:field="*{destination2}">
@@ -166,10 +189,12 @@
                     <option th:each="prefecture : ${prefectures}" 
                             th:value="${prefecture}" 
                             th:text="${prefecture}" 
-                            th:selected="${prefecture == planForm.destination2}"></option>
+                            th:selected="${prefecture == planForm.destination2}">
+                    </option>
                 </select>
             </div>
 
+            <!-- 行き先3選択フィールド -->
             <div>
                 <label for="destination3">行き先3 (任意):</label>
                 <select id="destination3" th:field="*{destination3}">
@@ -177,44 +202,50 @@
                     <option th:each="prefecture : ${prefectures}" 
                             th:value="${prefecture}" 
                             th:text="${prefecture}" 
-                            th:selected="${prefecture == planForm.destination3}"></option>
+                            th:selected="${prefecture == planForm.destination3}">
+                    </option>
                 </select>
             </div>
-			
-			<div>
-						                <label for="iconImage">アイコン画像:</label>
-						                <input type="file" id="iconImage" name="iconImage" accept="image/*">
-						            </div>
 
+            <!-- アイコン画像アップロードフィールド -->
+            <div>
+                <label for="iconImage">アイコン画像:</label>
+                <input type="file" id="iconImage" name="iconImage" accept="image/*">
+            </div>
+
+            <!-- グローバルエラー表示 -->
             <div th:if="${#fields.hasErrors('global')}" class="error">
                 <p th:each="err : ${#fields.errors('global')}" th:text="${err}"></p>
             </div>
 
+            <!-- 更新ボタン -->
             <button type="submit">プランを更新</button>
         </form>
 
+        <!-- 戻るリンク -->
         <a href="#" onclick="window.history.back();" class="back-link">戻る</a>
     </div>
-	<script>
-		document.addEventListener("DOMContentLoaded", () => {
-				  const form = document.querySelector("form");
-				  const submitButton = form.querySelector("button[type='submit']");
-				  const originalButtonText = submitButton.textContent;
-				
-				  form.addEventListener("submit", (event) => {
-				    // フォーム送信をブロックしない
-				    
-				    // ボタンを「送信中...」に変更して無効化
-				    submitButton.textContent = "送信中...";
-				    submitButton.disabled = true;
-				
-				    
-				  });
-				});
-			</script>
-	
-	<div class="footer">
-	        <p>© 2024 旅行プランサイト 旅びより　|　利用規約　|　お問い合わせ</p>
-	    </div>
+
+    <!-- フォーム送信時の処理 -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.querySelector("form");
+            const submitButton = form.querySelector("button[type='submit']");
+            
+            // 元のボタンテキストを保存
+            const originalButtonText = submitButton.textContent;
+
+            form.addEventListener("submit", () => {
+                // ボタンを「送信中...」に変更して無効化
+                submitButton.textContent = "送信中...";
+                submitButton.disabled = true;
+            });
+        });
+    </script>
+
+    <!-- フッター -->
+    <div class="footer">
+        <p>© 2024 旅行プランサイト 旅びより　|　利用規約　|　お問い合わせ</p>
+    </div>
 </body>
 </html>

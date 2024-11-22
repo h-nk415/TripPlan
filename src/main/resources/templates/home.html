@@ -75,8 +75,8 @@
         }
         .plan-content {
             padding: 1.2rem;
-            position: relative; /* 追加 */
-            z-index: 1; /* 画像がコンテンツの背後に隠れないように */
+            position: relative;
+            z-index: 1;
         }
         .plan-title {
             font-size: 1.2rem;
@@ -130,57 +130,65 @@
             text-decoration: underline;
         }
 		.logout-form {
-		            margin-left: auto; /* 追加 */
-		        }
-		        
-		        .logout-btn {
-		            display: inline-block;
-		            padding: 10px 20px;
-		            background-color: #f8f9fa;
-		            color: #495057;
-		            text-align: center;
-		            text-decoration: none;
-		            border-radius: 50px;
-		            font-size: 0.9rem;
-		            transition: all 0.3s ease;
-		            border: 1px solid #ced4da;
-		            cursor: pointer;
-					font-family: 'Noto Sans JP', sans-serif;
-		        }
-		        
-		        .logout-btn:hover {
-		            background-color: #e9ecef;
-		            transform: translateY(-2px);
-		        }
+		    margin-left: auto;
+		}       
+		.logout-btn {
+		    display: inline-block;
+		    padding: 10px 20px;
+		    background-color: #f8f9fa;
+		    color: #495057;
+		    text-align: center;
+		    text-decoration: none;
+		    border-radius: 50px;
+		    font-size: 0.9rem;
+		    transition: all 0.3s ease;
+		    border: 1px solid #ced4da;
+		    cursor: pointer;
+			font-family: 'Noto Sans JP', sans-serif;
+		 }
+		 .logout-btn:hover {
+			background-color: #e9ecef;
+			transform: translateY(-2px);
+		 }
     </style>
-	
 </head>
+
 <body>
+    <!-- ヘッダー部分 -->
     <div class="header">
-		<a th:href="@{/plans/home}">
-        <img src="/image/logo.png" alt="ロゴ">
-		</a>
+        <!-- ホームリンク -->
+        <a th:href="@{/plans/home}">
+            <img src="/image/logo.png" alt="ロゴ">
+        </a>
+        <!-- タイトル -->
         <h1>プラン一覧</h1>
-        <!-- 新しいプラン作成ボタン -->
+        <!-- 新しいプランを作成するボタン -->
         <a href="/plans/entry" class="create-plan-btn">＋ 新しいプランを作成</a>
-		<form th:action="@{/logout}" method="post" class="logout-form">
-			            <button type="submit" class="logout-btn">ログアウト</button>
-			        </form>
+        <!-- ログアウトフォーム -->
+        <form th:action="@{/logout}" method="post" class="logout-form">
+            <button type="submit" class="logout-btn">ログアウト</button>
+        </form>
     </div>
 
+    <!-- プランリスト表示部分 -->
     <div class="container">
         <div class="plan-container">
+            <!-- 各プランの繰り返し表示 -->
             <th:block th:each="plan : ${plans}">
+                <!-- プランカード -->
                 <div class="plan-card" th:onclick="'window.location.href=\'' + @{/plans/{id}(id=${plan.id})} + '\''">
                     <div class="plan-image">
-                        <!-- アイコン画像の表示部分 -->
-						<img th:src="@{'/uploads/' + ${plan.iconImage}}" alt="プランアイコン" th:if="${plan.iconImage != null}" />
-						<img src="/image/default.png" alt="デフォルトアイコン" th:if="${plan.iconImage == null}" />
+                        <!-- プランアイコン画像表示 -->
+                        <img th:src="@{'/uploads/' + ${plan.iconImage}}" alt="プランアイコン" th:if="${plan.iconImage != null}" />
+                        <!-- デフォルト画像を表示 -->
+                        <img src="/image/default.png" alt="デフォルトアイコン" th:if="${plan.iconImage == null}" />
                     </div>
                     <div class="plan-content">
+                        <!-- プランタイトル表示 -->
                         <div class="plan-title">
                             <span th:text="${plan.title}"></span>
                         </div>
+                        <!-- プラン日付表示 -->
                         <div class="icon-wrapper">
                             <span class="plan-date">
                                 <span th:text="${#temporals.format(plan.startDate, 'yyyy年MM月dd日')}"></span>
@@ -194,10 +202,9 @@
         </div>
     </div>
 
-    <!-- フッター -->
+    <!-- フッター部分 -->
     <div class="footer">
         <p>© 2024 旅行プランサイト 旅びより　|　利用規約　|　お問い合わせ</p>
     </div>
-
 </body>
 </html>

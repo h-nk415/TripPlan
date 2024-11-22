@@ -21,7 +21,7 @@ public interface ScheduleMapper {
      * 新しいスケジュールをデータベースに挿入します。
      * 
      * @param schedule 登録するスケジュールのエンティティ
-     *                scheduleTime, spot, memo, spotUrl, plan_id などを含む
+     *                scheduleTime, event, memo, url, plan_id などを含む
      */
     void insertSchedule(Schedule schedule);
 
@@ -37,7 +37,7 @@ public interface ScheduleMapper {
      * 指定されたスケジュールの情報を更新します。
      * 
      * @param schedule 更新するスケジュールのエンティティ
-     *                 scheduleTime, spot, memo, spotUrl, plan_id などを更新
+     *                 scheduleTime, event, memo, url, plan_id などを更新
      */
     void updateSchedule(Schedule schedule);
 

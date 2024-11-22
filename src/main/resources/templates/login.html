@@ -109,38 +109,50 @@
     </style>
 </head>
 <body>
+    <!-- ヘッダー部分 -->
     <div class="header">
+        <!-- ホームへのリンク -->
         <a th:href="@{/plans/home}">
             <img src="/image/logo.png" alt="ロゴ">
         </a>
+        <!-- ページタイトル -->
         <h1>ログイン</h1>
     </div>
 
     <div class="container">
+        <!-- ログインフォーム -->
         <form th:action="@{/authentication}" method="post">
+            <!-- エラーメッセージ -->
             <div th:if="${param.error}" class="error-message">
                 <p>ユーザー名またはパスワードが正しくありません。</p>
             </div>
+            <!-- ログアウト成功メッセージ -->
             <div th:if="${param.logout}" class="success-message">
                 <p>ログアウトしました。</p>
             </div>
+            <!-- メールアドレス入力 -->
             <div class="form-group">
                 <label for="email">メールアドレス:</label>
                 <input type="email" id="email" name="email" required>
             </div>
+            <!-- パスワード入力 -->
             <div class="form-group">
                 <label for="password">パスワード:</label>
                 <input type="password" id="password" name="password" required>
             </div>
+            <!-- ログインボタン -->
             <div class="form-group">
                 <button type="submit" class="btn-login">ログイン</button>
             </div>
         </form>
+
+        <!-- 新規登録へのリンク -->
         <div class="signup-link">
             <p>新規登録は <a th:href="@{/login/entry}">こちら</a> から</p>
         </div>
     </div>
 
+    <!-- フッター部分 -->
     <div class="footer">
         <p>© 2024 旅行プランサイト 旅びより　|　利用規約　|　お問い合わせ</p>
     </div>

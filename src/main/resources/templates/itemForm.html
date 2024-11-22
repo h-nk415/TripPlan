@@ -122,25 +122,35 @@
     </style>
 </head>
 <body>
+    <!-- ヘッダー部分 -->
     <div class="header">
+        <!-- ホームへのリンク -->
         <a th:href="@{/plans/home}">
             <img src="/image/logo.png" alt="ロゴ">
         </a>
+        <!-- ページタイトル -->
         <h1>持ち物リスト</h1>
     </div>
 	
     <div class="container">
-		<div class="input-group">
+        <div class="input-group">
             <!-- アイテム追加フォーム -->
             <form th:action="@{/items/create}" method="post" th:object="${itemForm}" style="display: flex; width: 100%; align-items: center;">
+                <!-- アイテム名入力フィールド -->
                 <input type="text" placeholder="アイテム名" th:field="*{name}" required />
+                <!-- 数量入力フィールド -->
                 <input type="number" placeholder="数量" th:field="*{quantity}" required min="1" />
+                <!-- 対応するプランIDを隠しフィールドで送信 -->
                 <input type="hidden" name="planId" th:value="${plan.id}" />
+                <!-- 追加ボタン -->
                 <button type="submit" class="button">追加</button>
             </form>
         </div>
+        
         <!-- バリデーションエラーメッセージ -->
+        <!-- アイテム名のエラー -->
         <div class="error-message" th:if="${#fields.hasErrors('itemForm.name')}" th:errors="*{itemForm.name}"></div>
+        <!-- 数量のエラー -->
         <div class="error-message" th:if="${#fields.hasErrors('itemForm.quantity')}" th:errors="*{itemForm.quantity}"></div>
         
         <br>
@@ -149,6 +159,7 @@
         <table>
             <thead>
                 <tr>
+                    <!-- テーブルヘッダー -->
                     <th>アイテム</th>
                     <th>数量</th>
                     <th>チェック</th>
@@ -156,14 +167,19 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- アイテムデータの繰り返し表示 -->
                 <tr th:each="item : ${items}">
+                    <!-- アイテム名 -->
                     <td th:text="${item.name}"></td>
+                    <!-- 数量 -->
                     <td th:text="${item.quantity}"></td>
+                    <!-- チェックボックス -->
                     <td>
                         <form th:action="@{/items/check/{id}(id=${item.id})}" method="post" style="display:inline;">
                             <input type="checkbox" th:checked="${item.checked}" onchange="this.form.submit()">
                         </form>
                     </td>
+                    <!-- 削除ボタン -->
                     <td>
                         <form th:action="@{/items/delete/{id}(id=${item.id})}" method="post" style="display:inline;">
                             <button type="submit" class="button">削除</button>
@@ -178,6 +194,7 @@
         <a th:href="@{/plans/{id}(id=${plan.id})}" class="back-button">戻る</a>
     </div>
 
+    <!-- フッター部分 -->
     <div class="footer">
         <p>© 2024 旅行プランサイト 旅びより　|　利用規約　|　お問い合わせ</p>
     </div>

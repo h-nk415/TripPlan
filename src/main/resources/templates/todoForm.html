@@ -111,6 +111,7 @@
     </style>
 </head>
 <body>
+    <!-- ヘッダー部分 -->
     <div class="header">
         <a th:href="@{/plans/home}">
             <img src="/image/logo.png" alt="ロゴ">
@@ -118,7 +119,9 @@
         <h1>TODOリスト</h1>
     </div>
 
+    <!-- メインコンテンツ部分 -->
     <div class="container">
+        <!-- TODO項目追加フォーム -->
         <div class="input-group">
             <form th:action="@{/todos/create}" method="post" style="display: flex; width: 100%; align-items: center;">
                 <input type="text" placeholder="TODO項目" th:name="task" th:value="${todoForm.task}" required />
@@ -127,6 +130,8 @@
             </form>
         </div>
         <br>
+        
+        <!-- TODOリストのテーブル -->
         <table>
             <thead>
                 <tr>
@@ -136,14 +141,17 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- 各TODOアイテムをループで表示 -->
                 <tr th:each="todo : ${todos}">
                     <td th:text="${todo.task}"></td>
                     <td>
+                        <!-- 完了チェックボックス（状態変更時にフォームを送信） -->
                         <form th:action="@{/todos/update/{id}(id=${todo.id})}" method="post" style="display:inline;">
                             <input type="checkbox" th:checked="${todo.completed}" onchange="this.form.submit()" />
                         </form>
                     </td>
                     <td>
+                        <!-- 削除ボタン -->
                         <form th:action="@{/todos/delete/{id}(id=${todo.id})}" method="post" style="display:inline;">
                             <button type="submit" class="button">削除</button>
                         </form>
@@ -152,9 +160,12 @@
             </tbody>
         </table>
         <br>
+        
+        <!-- 戻るボタン -->
         <a th:href="@{/plans/{id}(id=${plan.id})}" class="back-button">戻る</a>
     </div>
 
+    <!-- フッター部分 -->
     <div class="footer">
         <p>© 2024 旅行プランサイト 旅びより　|　利用規約　|　お問い合わせ</p>
     </div>

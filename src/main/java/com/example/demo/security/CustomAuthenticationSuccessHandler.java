@@ -17,12 +17,26 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * 認証成功後の処理を行うカスタムハンドラです。
+ * Spring Securityの認証が成功した際に実行され、ユーザー情報をセッションに保存し、指定されたページへリダイレクトします。
+ */
 @Component
 @RequiredArgsConstructor
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
     private final UserService userService;
 
+    /**
+     * 認証が成功した際に呼び出されるメソッドです。
+     * ユーザー情報をセッションに保存し、リダイレクト先のページへ遷移します。
+     * 
+     * @param request HTTPリクエスト
+     * @param response HTTPレスポンス
+     * @param authentication 認証情報
+     * @throws IOException 入出力エラーが発生した場合にスローされます
+     * @throws ServletException サーブレット関連のエラーが発生した場合にスローされます
+     */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
@@ -35,10 +49,14 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             connectUser = new ConnectUser();
         }
 
+        // 認証されたユーザーのメールアドレスを取得
         String email = authentication.getName();
+        
+        // メールアドレスからユーザー情報を取得
         User user = userService.getUserByEmail(email);
 
         if (user != null) {
+            // ユーザー情報をConnectUserに設定
             connectUser.setId(user.getId());
             connectUser.setEmail(user.getEmail());
             connectUser.setPassword(user.getPassword());
@@ -48,6 +66,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
             request.getSession().setAttribute("connectUser", connectUser);
         }
 
+        // ホームページにリダイレクト
         response.sendRedirect("/plans/home");
     }
 }

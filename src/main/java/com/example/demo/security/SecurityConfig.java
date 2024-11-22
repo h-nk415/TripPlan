@@ -10,6 +10,15 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import lombok.RequiredArgsConstructor;
 
+/**
+ * アプリケーションのセキュリティ設定を行うクラスです。
+ * 
+ * このクラスはSpring Securityを使用して、ユーザー認証や認可の設定を行います。
+ * また、ログイン処理、ログアウト処理、静的リソースへのアクセス許可などを構成します。
+ * 
+ * @see CustomAuthenticationSuccessHandler ログイン成功時の処理
+ * @see CustomUserDetailsService ユーザー情報の取得方法
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -18,13 +27,28 @@ public class SecurityConfig {
     private final CustomAuthenticationSuccessHandler successHandler;
     private final CustomUserDetailsService customUserDetailsService;
 
-    // UserDetailsService を設定するBean
+    /**
+     * {@link UserDetailsService} の Bean 定義です。
+     * 
+     * Spring Securityの認証処理で使用されるユーザー情報の取得方法を提供します。
+     * カスタム実装の {@link CustomUserDetailsService} を利用します。
+     * 
+     * @return {@link CustomUserDetailsService} のインスタンス
+     */
     @Bean
     public UserDetailsService userDetailsService() {
         return customUserDetailsService;
     }
 
-    // DaoAuthenticationProvider を使ってユーザー情報を検証
+    /**
+     * {@link DaoAuthenticationProvider} の Bean 定義です。
+     * 
+     * ユーザー情報の取得方法（{@link CustomUserDetailsService}）と
+     * パスワードエンコーダ（BCryptPasswordEncoder）を組み合わせて、
+     * Spring Securityでのユーザー認証を提供します。
+     * 
+     * @return {@link DaoAuthenticationProvider} のインスタンス
+     */
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -33,6 +57,16 @@ public class SecurityConfig {
         return provider;
     }
 
+    /**
+     * HTTPセキュリティ設定を行います。
+     * 
+     * このメソッドは、リクエストに対するアクセス制御や認証方法を設定します。
+     * ログイン、ログアウト、静的リソースへのアクセスなどを設定します。
+     * 
+     * @param http {@link HttpSecurity} オブジェクトを使用してセキュリティ設定を行います
+     * @return {@link SecurityFilterChain} セキュリティ設定を反映したフィルターチェーン
+     * @throws Exception 設定中に発生する可能性のある例外
+     */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http

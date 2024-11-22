@@ -5,60 +5,52 @@ DROP TABLE IF EXISTS todo CASCADE;
 DROP TABLE IF EXISTS plan CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
 
---userテーブルの作成
+-- ユーザーテーブルの作成
 CREATE TABLE users (
-
-	--ユーザーID：主キー
-	id SERIAL PRIMARY KEY,
-	
-	email VARCHAR(255) UNIQUE NOT NULL,
-	
-	--パスワード：NULL不許可
-	password VARCHAR(255) NOT NULL,
-	
-	--表示名：NULL不許可
-	displayname VARCHAR(255) NOT NULL
-	
+    id SERIAL PRIMARY KEY,                          -- ユーザーID（主キー）
+    email VARCHAR(255) UNIQUE NOT NULL,              -- ユーザーのメールアドレス（ユニーク制約、NULL不許可）
+    password VARCHAR(255) NOT NULL,                  -- パスワード（NULL不許可）
+    displayname VARCHAR(255) NOT NULL                -- ユーザーの表示名（NULL不許可）
 );
 
--- planテーブル
+-- 旅行プランテーブルの作成
 CREATE TABLE plan (
-    id SERIAL PRIMARY KEY,                       -- 旅行プランのID（主キー）
-    title VARCHAR(255) NOT NULL,                  -- 旅行プランのタイトル
-    title_detail VARCHAR(255) NOT NULL,           -- 旅行プランの詳細情報
-    start_date DATE NOT NULL,                     -- 旅行の開始日
-    end_date DATE NOT NULL,                       -- 旅行の終了日
-    destination1 VARCHAR(255) NOT NULL,           -- 旅行先の1つ目の行き先
-    destination2 VARCHAR(255),                    -- 旅行先の2つ目の行き先
-    destination3 VARCHAR(255),                     -- 旅行先の3つ目の行き先
-    icon_image VARCHAR(255),                       -- アイコン画像のファイル名（追加）
-    users_id INTEGER REFERENCES users(id)
+    id SERIAL PRIMARY KEY,                          -- 旅行プランのID（主キー）
+    title VARCHAR(255) NOT NULL,                     -- 旅行プランのタイトル
+    title_detail VARCHAR(255) NOT NULL,              -- 旅行プランの詳細情報
+    start_date DATE NOT NULL,                        -- 旅行の開始日
+    end_date DATE NOT NULL,                          -- 旅行の終了日
+    destination1 VARCHAR(255) NOT NULL,              -- 旅行先1
+    destination2 VARCHAR(255),                       -- 旅行先2（オプション）
+    destination3 VARCHAR(255),                       -- 旅行先3（オプション）
+    icon_image VARCHAR(255),                        -- アイコン画像（オプション）
+    users_id INTEGER REFERENCES users(id)           -- ユーザーID（外部キー制約）
 );
 
--- scheduleテーブル
+-- スケジュールテーブルの作成
 CREATE TABLE schedule (
-    id SERIAL PRIMARY KEY,                       -- スケジュールのID（主キー）
-    schedule_time TIMESTAMP NOT NULL,             -- 時間
-    event VARCHAR(255) NOT NULL,                  -- 予定内容
-    memo VARCHAR(255),                            -- メモ
-    url VARCHAR(255),                             -- 関連URL
-    flag VARCHAR(255),
-    plan_id INTEGER REFERENCES plan(id)           -- 関連する旅行プラン（外部キー）
+    id SERIAL PRIMARY KEY,                          -- スケジュールのID（主キー）
+    schedule_time TIMESTAMP NOT NULL,                -- スケジュールの時間
+    event VARCHAR(255) NOT NULL,                     -- 予定内容
+    memo VARCHAR(255),                               -- メモ（オプション）
+    url VARCHAR(255),                                -- 関連URL（オプション）
+    flag VARCHAR(255),                               -- 予定の種類（例: 食事、観光など）
+    plan_id INTEGER REFERENCES plan(id)             -- 旅行プランID（外部キー制約）
 );
 
--- itemテーブル（持ち物リスト）
+-- 持ち物リストテーブルの作成
 CREATE TABLE item (
-    id SERIAL PRIMARY KEY,                        -- 持ち物アイテムのID（主キー）
-    name VARCHAR(255) NOT NULL,                    -- アイテム名
-    quantity INTEGER NOT NULL,                     -- アイテムの個数
-    checked BOOLEAN NOT NULL,                      -- アイテムが確認されたかどうか
-    plan_id INTEGER REFERENCES plan(id)           -- 関連する旅行プラン（外部キー）
+    id SERIAL PRIMARY KEY,                          -- アイテムID（主キー）
+    name VARCHAR(255) NOT NULL,                      -- アイテム名
+    quantity INTEGER NOT NULL,                       -- アイテムの個数
+    checked BOOLEAN NOT NULL,                        -- アイテムが確認されたかどうか
+    plan_id INTEGER REFERENCES plan(id)             -- 旅行プランID（外部キー制約）
 );
 
--- todoテーブル（Todoリスト）
+-- Todoリストテーブルの作成
 CREATE TABLE todo (
-    id SERIAL PRIMARY KEY,                        -- TodoアイテムのID（主キー）
-    task VARCHAR(255) NOT NULL,                    -- Todoアイテムの内容
-    completed BOOLEAN NOT NULL,                    -- Todoアイテムが完了したかどうか
-    plan_id INTEGER REFERENCES plan(id)          -- 外部キー制約
+    id SERIAL PRIMARY KEY,                          -- TodoアイテムID（主キー）
+    task VARCHAR(255) NOT NULL,                      -- Todoアイテムの内容
+    completed BOOLEAN NOT NULL,                      -- Todoアイテムの完了状態
+    plan_id INTEGER REFERENCES plan(id)             -- 旅行プランID（外部キー制約）
 );

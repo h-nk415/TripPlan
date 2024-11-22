@@ -7,6 +7,7 @@
 
     <!-- PlanエンティティをマッピングするresultMap -->
     <resultMap id="planResultMap" type="com.example.demo.entity.Plan">
+        <!-- 各カラムをPlanエンティティのプロパティにマッピング -->
         <id property="id" column="id"/>
         <result property="title" column="title"/>
         <result property="titleDetail" column="title_detail"/>
@@ -18,8 +19,9 @@
         <result property="iconImage" column="icon_image"/> <!-- 追加 -->
         <result property="usersId" column="users_id"/> <!-- 追加 -->
 
-        <!-- schedulesのcollection -->
+        <!-- schedulesのcollectionをマッピング -->
         <collection property="schedules" ofType="com.example.demo.entity.Schedule" javaType="java.util.List">
+            <!-- 各カラムをScheduleエンティティのプロパティにマッピング -->
             <id property="id" column="schedule_id"/>
             <result property="scheduleTime" column="schedule_time"/>
             <result property="event" column="event"/>
@@ -27,45 +29,48 @@
             <result property="url" column="url"/>
             <result property="flag" column="flag"/> <!-- 追加: flagカラム -->
         </collection>
-
     </resultMap>
 
     <!-- プラン詳細画面に必要なデータを一度に取得するSQL -->
     <select id="selectPlanDetails" parameterType="int" resultMap="planResultMap">
+        <!-- プランの情報、スケジュール、アイテム、Todoを一度に取得 -->
         SELECT 
             p.*, 
             s.id AS schedule_id, s.schedule_time AS schedule_time, s.event, s.memo, s.url, 
             i.id AS item_id, i.name, i.quantity, i.checked,
             t.id AS todo_id, t.task, t.completed
         FROM plan p
-        LEFT JOIN schedule s ON p.id = s.plan_id
-        LEFT JOIN item i ON p.id = i.plan_id
-        LEFT JOIN todo t ON p.id = t.plan_id
-        WHERE p.id = #{id}
-        ORDER BY i.id, t.id, s.schedule_time;
+        LEFT JOIN schedule s ON p.id = s.plan_id  <!-- プランに関連するスケジュールを結合 -->
+        LEFT JOIN item i ON p.id = i.plan_id      <!-- プランに関連するアイテムを結合 -->
+        LEFT JOIN todo t ON p.id = t.plan_id      <!-- プランに関連するTodoを結合 -->
+        WHERE p.id = #{id}  <!-- 指定されたIDのプランを検索 -->
+        ORDER BY i.id, t.id, s.schedule_time;     <!-- アイテム、Todo、スケジュールをID順に並べる -->
     </select>
 
     <!-- 新しい旅行プランを挿入するSQL文 -->
     <insert id="insertPlan" parameterType="com.example.demo.entity.Plan">
+        <!-- 新しいプランをplanテーブルに挿入 -->
         INSERT INTO plan (title, title_detail, start_date, end_date, destination1, destination2, destination3, icon_image, users_id)
-        VALUES (#{title}, #{titleDetail}, #{startDate}, #{endDate}, #{destination1}, #{destination2}, #{destination3}, #{iconImage}, #{usersId}) <!-- 追加 -->
+        VALUES (#{title}, #{titleDetail}, #{startDate}, #{endDate}, #{destination1}, #{destination2}, #{destination3}, #{iconImage}, #{usersId})
     </insert>
 
     <!-- 指定されたIDの旅行プランを取得するSQL文 -->
     <select id="selectPlanById" parameterType="int" resultMap="planResultMap">
+        <!-- 指定されたIDのプランを取得 -->
         SELECT * FROM plan WHERE id = #{id}
     </select>
 
     <!-- すべての旅行プランを取得するSQL文 -->
     <select id="selectAllPlans" parameterType="int" resultMap="planResultMap">
+        <!-- ユーザーIDでフィルタリングして、すべてのプランを取得 -->
         SELECT * FROM plan
-    WHERE users_id = #{usersId}  <!-- useridでフィルタリング -->
-    ORDER BY id;
-   
+        WHERE users_id = #{usersId}  <!-- ユーザーIDでフィルタリング -->
+        ORDER BY id;  <!-- ID順に並べ替え -->
     </select>
 
     <!-- 指定された旅行プランの情報を更新するSQL文 -->
     <update id="updatePlan" parameterType="com.example.demo.entity.Plan">
+        <!-- プランの情報を更新 -->
         UPDATE plan
         SET title = #{title},
             title_detail = #{titleDetail},
@@ -74,17 +79,17 @@
             destination1 = #{destination1},
             destination2 = #{destination2},
             destination3 = #{destination3},
-            icon_image = #{iconImage} <!-- 追加 -->
-        WHERE id = #{id}
+            icon_image = #{iconImage} 
+        WHERE id = #{id}  <!-- 指定されたIDのプランを更新 -->
     </update>
 
     <!-- 指定されたIDの旅行プランを削除するSQL文 -->
     <delete id="deletePlanById" parameterType="int">
         <!-- 関連するschedule, item, todoを削除 -->
-        DELETE FROM schedule WHERE plan_id = #{id};
-        DELETE FROM item WHERE plan_id = #{id};
-        DELETE FROM todo WHERE plan_id = #{id};
-        DELETE FROM plan WHERE id = #{id};
+        DELETE FROM schedule WHERE plan_id = #{id}; <!-- プランに関連するスケジュールを削除 -->
+        DELETE FROM item WHERE plan_id = #{id};     <!-- プランに関連するアイテムを削除 -->
+        DELETE FROM todo WHERE plan_id = #{id};     <!-- プランに関連するTodoを削除 -->
+        DELETE FROM plan WHERE id = #{id};          <!-- プラン自体を削除 -->
     </delete>
 
 </mapper>

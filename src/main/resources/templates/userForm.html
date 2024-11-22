@@ -96,7 +96,7 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             border: none;
             cursor: pointer;
-            margin-left: 10px; /* 少しスペースを確保 */
+            margin-left: 10px;
         }
         .btn-back:hover {
             background-color: #aaa;
@@ -112,33 +112,41 @@
             text-align: center;
             font-size: 0.9rem;
         }
-        /* ボタンを左右端に配置 */
         .form-buttons {
             display: flex;
             justify-content: space-between;
-            gap: 10px; /* ボタン間の間隔を調整 */
+            gap: 10px;
             margin-top: 1rem;
         }
     </style>
 </head>
 <body>
+    <!-- ヘッダー部分 -->
     <div class="header">
+        <!-- ホームページへのリンク -->
         <a th:href="@{/plans/home}">
             <img src="/image/logo.png" alt="ロゴ">
         </a>
         <h1>ユーザー登録フォーム</h1>
     </div>
 
+    <!-- ユーザー登録フォーム -->
     <div class="container">
+        <!-- フォーム送信先: /login/create -->
         <form action="/login/create" method="post">
+            <!-- メールアドレス入力欄 -->
             <div class="form-group">
                 <label for="email" class="form-label">メールアドレス</label>
                 <input type="email" class="form-control" id="email" name="email" required>
             </div>
+
+            <!-- パスワード入力欄 -->
             <div class="form-group">
                 <label for="password" class="form-label">パスワード (8文字以上)</label>
                 <input type="password" class="form-control" id="password" name="password" required>
             </div>
+
+            <!-- ニックネーム入力欄 -->
             <div class="form-group">
                 <label for="displayname" class="form-label">ニックネーム</label>
                 <input type="text" class="form-control" id="displayname" name="displayname" required>
@@ -146,12 +154,15 @@
 
             <!-- ボタンを左右端に配置 -->
             <div class="form-buttons">
+                <!-- 戻るボタン -->
                 <a href="/login" class="btn-back">戻る</a>
+                <!-- 登録ボタン -->
                 <button type="submit" class="btn-primary">登録</button>
             </div>
         </form>
     </div>
 
+    <!-- フッター部分 -->
     <div class="footer">
         <p>© 2024 旅行プランサイト 旅びより | 利用規約 | お問い合わせ</p>
     </div>
