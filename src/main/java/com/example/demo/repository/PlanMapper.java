@@ -36,7 +36,7 @@ public interface PlanMapper {
      * 
      * @return すべての旅行プランのリスト
      */
-    List<Plan> selectAllPlans();
+    List<Plan> selectAllPlans(int id);
 
     /**
      * 指定された旅行プランの情報を更新します。

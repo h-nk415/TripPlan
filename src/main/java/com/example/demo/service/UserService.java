@@ -23,15 +23,6 @@ public class UserService {
         return userMapper.selectUserById(id);
     }
 
-    // ユーザー情報の更新
-    public void updateUser(User user) {
-        userMapper.updateUser(user);
-    }
-
-    // ユーザーの削除
-    public void deleteUserById(Integer id) {
-        userMapper.deleteUserById(id);
-    }
     
     public User getUserByEmail(String email) {
         return userMapper.findByEmail(email); // emailでユーザーを取得

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.demo.entity.User;
 import com.example.demo.form.UserForm;
+import com.example.demo.security.PasswordGenerator;
 import com.example.demo.service.UserService;
 
 import jakarta.validation.Valid;
@@ -31,23 +32,33 @@ public class UserController {
     @GetMapping("/login/entry")
     public String showRegisterForm(Model model) {
         model.addAttribute("userForm", new UserForm());
-        return "userForm"; // register.html を返す
+        return "userForm"; 
     }
 
-    // ユーザー登録処理
     @PostMapping("/login/create")
-    public String registerUser(@Valid @ModelAttribute("userForm") UserForm userForm,BindingResult bindingResult, Model model) {
-        
-    	if (bindingResult.hasErrors()) {
-            return "register"; // バリデーションエラーがあれば登録画面に戻す
+    public String registerUser(@Valid @ModelAttribute("userForm") UserForm userForm,
+                               BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("userForm", userForm);
+            return "userForm"; // バリデーションエラーがあれば登録画面に戻す
         }
 
+        // パスワードのハッシュ化
+        String hashedPassword = PasswordGenerator.hashGenerate(userForm.getPassword());
+
         // UserForm を User エンティティに変換して登録
-        User user = new User(null, userForm.getEmail(), userForm.getPassword(), userForm.getDisplayname());
+        User user = new User();
+        user.setEmail(userForm.getEmail());
+        user.setPassword(hashedPassword);
+        user.setDisplayname(userForm.getDisplayname());
+        
         userService.insertUser(user);
 
         model.addAttribute("message", "登録が完了しました");
         return "redirect:/login"; // 登録完了後、ログイン画面にリダイレクト
     }
+
+
 
 }

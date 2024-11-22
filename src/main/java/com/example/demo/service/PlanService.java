@@ -48,8 +48,8 @@ public class PlanService {
      * 
      * @return すべての旅行プランのリスト
      */
-    public List<Plan> getAllPlans() {
-        return planMapper.selectAllPlans();
+    public List<Plan> getPlansByUserId(Integer userId) {
+        return planMapper.selectAllPlans(userId);
     }
 
     /**

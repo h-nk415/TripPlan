@@ -11,10 +11,6 @@ public interface UserMapper {
     void insertUser(User user);
 
     User selectUserById(@Param("id") Integer id);
-
-    void updateUser(User user);
-
-    void deleteUserById(@Param("id") Integer id);
     
     User findByEmail(@Param("email") String email);
 

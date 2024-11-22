@@ -22,10 +22,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.entity.ConnectUser;
 import com.example.demo.entity.Plan;
+import com.example.demo.form.ItemForm;
 import com.example.demo.form.PlanForm;
+import com.example.demo.form.TodoForm;
 import com.example.demo.service.PlanService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -40,21 +44,35 @@ public class PlanController {
 
     /** DI */
     private final PlanService planService;
+    
 
-    // ホーム画面（プラン一覧）を表示します
     @GetMapping("/home")
-    public String home(Model model) {
-        List<Plan> plans = planService.getAllPlans();
-        model.addAttribute("plans", plans);
-        return "home"; // planList.htmlを返す
+    public String home(HttpServletRequest request, Model model) {
+        // セッションからConnectUserを取得
+        ConnectUser connectUser = (ConnectUser) request.getSession().getAttribute("connectUser");
+
+        if (connectUser != null) {
+            // サービスからユーザーIDでプランを取得
+            List<Plan> plans = planService.getPlansByUserId(connectUser.getId());
+            model.addAttribute("plans", plans);
+        } else {
+            // セッションが切れている場合、リダイレクト
+            return "redirect:/login";
+        }
+
+        return "home"; // home.htmlを返す
     }
 
     // プラン詳細画面の取得
     @GetMapping("/{id}")
     public String getPlanDetails(@PathVariable Integer id, Model model) {
         Plan plan = planService.getPlanDetails(id);
+        ItemForm itemForm = new ItemForm();
+        TodoForm todoForm = new TodoForm();
         
         model.addAttribute("plan", plan);
+        model.addAttribute("itemForm", itemForm);
+        model.addAttribute("todoForm", todoForm);
         
         return "detail";  // Detail.html というビュー名
     }
@@ -67,7 +85,9 @@ public class PlanController {
 
     // プランの新規作成
     @PostMapping("/create")
-    public String createPlan(@ModelAttribute @Valid PlanForm planForm, BindingResult bindingResult, Model model, @RequestParam(value = "iconImage", required = false) MultipartFile iconImage, RedirectAttributes redirectAttributes) {
+    public String createPlan(@ModelAttribute @Valid PlanForm planForm, BindingResult bindingResult, Model model,
+    						@RequestParam(value = "iconImage", required = false) MultipartFile iconImage, 
+    						RedirectAttributes redirectAttributes,HttpServletRequest request) {
         // バリデーション（開始日、終了日、目的地など）
         if (planForm.getStartDate() != null && planForm.getEndDate() != null &&
                 planForm.getEndDate().isBefore(planForm.getStartDate())) {
@@ -97,6 +117,10 @@ public class PlanController {
 
         // Planオブジェクトを作成
         Plan plan = new Plan();
+       
+        ConnectUser connectUser = (ConnectUser) request.getSession().getAttribute("connectUser");
+        plan.setUsersId(connectUser.getId());
+        
         plan.setTitle(planForm.getTitle());
         plan.setTitleDetail(planForm.getTitleDetail());
         plan.setStartDate(planForm.getStartDate());

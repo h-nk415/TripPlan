@@ -16,6 +16,7 @@
         <result property="destination2" column="destination2"/>
         <result property="destination3" column="destination3"/>
         <result property="iconImage" column="icon_image"/> <!-- 追加 -->
+        <result property="usersId" column="users_id"/> <!-- 追加 -->
 
         <!-- schedulesのcollection -->
         <collection property="schedules" ofType="com.example.demo.entity.Schedule" javaType="java.util.List">
@@ -33,17 +34,21 @@
     <select id="selectPlanDetails" parameterType="int" resultMap="planResultMap">
         SELECT 
             p.*, 
-            s.id AS schedule_id, s.schedule_time AS schedule_time, s.event, s.memo, s.url, s.flag <!-- flagを追加 -->
+            s.id AS schedule_id, s.schedule_time AS schedule_time, s.event, s.memo, s.url, 
+            i.id AS item_id, i.name, i.quantity, i.checked,
+            t.id AS todo_id, t.task, t.completed
         FROM plan p
         LEFT JOIN schedule s ON p.id = s.plan_id
+        LEFT JOIN item i ON p.id = i.plan_id
+        LEFT JOIN todo t ON p.id = t.plan_id
         WHERE p.id = #{id}
-        ORDER BY  s.schedule_time;
+        ORDER BY i.id, t.id, s.schedule_time;
     </select>
 
     <!-- 新しい旅行プランを挿入するSQL文 -->
     <insert id="insertPlan" parameterType="com.example.demo.entity.Plan">
-        INSERT INTO plan (title, title_detail, start_date, end_date, destination1, destination2, destination3, icon_image)
-        VALUES (#{title}, #{titleDetail}, #{startDate}, #{endDate}, #{destination1}, #{destination2}, #{destination3}, #{iconImage}) <!-- 追加 -->
+        INSERT INTO plan (title, title_detail, start_date, end_date, destination1, destination2, destination3, icon_image, users_id)
+        VALUES (#{title}, #{titleDetail}, #{startDate}, #{endDate}, #{destination1}, #{destination2}, #{destination3}, #{iconImage}, #{usersId}) <!-- 追加 -->
     </insert>
 
     <!-- 指定されたIDの旅行プランを取得するSQL文 -->
@@ -52,10 +57,11 @@
     </select>
 
     <!-- すべての旅行プランを取得するSQL文 -->
-    <select id="selectAllPlans" resultMap="planResultMap">
+    <select id="selectAllPlans" parameterType="int" resultMap="planResultMap">
         SELECT * FROM plan
     WHERE users_id = #{usersId}  <!-- useridでフィルタリング -->
     ORDER BY id;
+   
     </select>
 
     <!-- 指定された旅行プランの情報を更新するSQL文 -->

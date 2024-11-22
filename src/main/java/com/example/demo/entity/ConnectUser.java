@@ -1,10 +1,22 @@
 package com.example.demo.entity;
 
+
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Component
+@Scope("session")  // セッションスコープに設定
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ConnectUser {
-	public static Integer id;  // ユーザーID（主キー）
-
-	public static String email;   // メールアドレス
-	public static String password;  // パスワード
-	public static String displayname;  // 表示名
-
+    private Integer id;
+    private String email;
+    private String password;
+    private String displayname;
 }

@@ -26,6 +26,7 @@
             padding: 1.5rem;
             display: flex;
             align-items: center;
+			justify-content: space-between;
         }
         .header img {
             height: 40px;
@@ -128,6 +129,29 @@
         .footer a:hover {
             text-decoration: underline;
         }
+		.logout-form {
+		            margin-left: auto; /* 追加 */
+		        }
+		        
+		        .logout-btn {
+		            display: inline-block;
+		            padding: 10px 20px;
+		            background-color: #f8f9fa;
+		            color: #495057;
+		            text-align: center;
+		            text-decoration: none;
+		            border-radius: 50px;
+		            font-size: 0.9rem;
+		            transition: all 0.3s ease;
+		            border: 1px solid #ced4da;
+		            cursor: pointer;
+					font-family: 'Noto Sans JP', sans-serif;
+		        }
+		        
+		        .logout-btn:hover {
+		            background-color: #e9ecef;
+		            transform: translateY(-2px);
+		        }
     </style>
 	
 </head>
@@ -139,6 +163,9 @@
         <h1>プラン一覧</h1>
         <!-- 新しいプラン作成ボタン -->
         <a href="/plans/entry" class="create-plan-btn">＋ 新しいプランを作成</a>
+		<form th:action="@{/logout}" method="post" class="logout-form">
+			            <button type="submit" class="logout-btn">ログアウト</button>
+			        </form>
     </div>
 
     <div class="container">

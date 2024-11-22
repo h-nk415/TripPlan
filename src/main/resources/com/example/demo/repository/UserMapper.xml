@@ -22,17 +22,6 @@
         WHERE email = #{email};
     </select>
 
-    <!-- ユーザー情報を更新 -->
-    <update id="updateUser" parameterType="com.example.demo.entity.User">
-        UPDATE users
-        SET email = #{email}, password = #{password}, displayname = #{displayname}
-        WHERE id = #{id};
-    </update>
-
-    <!-- ユーザーIDでユーザーを削除 -->
-    <delete id="deleteUserById" parameterType="Integer">
-        DELETE FROM users
-        WHERE id = #{id};
-    </delete>
+    
 
 </mapper>

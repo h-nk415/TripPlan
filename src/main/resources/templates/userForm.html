@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ログイン</title>
+    <title>ユーザー登録フォーム</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha384-mHcQHtNnk9P/7daCxM4D9i8X7u1L6o/Qh3ZjrPpC71UzrhZJYljsAvI03FV0KnUl" crossorigin="anonymous">
     <style>
@@ -36,31 +36,38 @@
             font-size: 1.8rem;
         }
         .container {
-            max-width: 400px;
+            max-width: 600px;
             margin: 2rem auto;
             padding: 2rem;
             background-color: white;
             border-radius: 12px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         .form-group {
             margin-bottom: 1.5rem;
         }
-        .form-group label {
+        .form-label {
             display: block;
             margin-bottom: 0.5rem;
             color: #495057;
+            font-weight: 500;
         }
-        .form-group input {
+        .form-control {
             width: 100%;
             padding: 0.75rem;
-            border: 1px solid #e9ecef;
-            border-radius: 4px;
             font-size: 1rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
         }
-        .btn-login {
+        .form-control:focus {
+            border-color: #86C7D6;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(134, 199, 214, 0.25);
+        }
+        .btn-primary {
             display: inline-block;
-            padding: 12px 24px;
+            padding: 0.75rem 1.5rem;
             background-color: #86C7D6;
             color: white;
             text-align: center;
@@ -71,33 +78,32 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             border: none;
             cursor: pointer;
-            width: 100%;
         }
-        .btn-login:hover {
+        .btn-primary:hover {
             background-color: #6BA7B6;
             transform: translateY(-3px);
         }
-        .error-message {
-            color: red;
-            margin-bottom: 1rem;
-        }
-        .success-message {
-            color: green;
-            margin-bottom: 1rem;
-        }
-        .signup-link {
+        .btn-back {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background-color: #ccc;
+            color: #333;
             text-align: center;
-            margin-top: 1rem;
-        }
-        .signup-link a {
-            color: #86C7D6;
             text-decoration: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: none;
+            cursor: pointer;
+            margin-left: 10px; /* 少しスペースを確保 */
         }
-        .signup-link a:hover {
-            text-decoration: underline;
+        .btn-back:hover {
+            background-color: #aaa;
+            transform: translateY(-3px);
         }
         .footer {
-            position: fixed;
+            margin-top: 2rem;
             bottom: 0;
             width: 100%;
             background-color: rgb(192, 192, 192);
@@ -106,6 +112,13 @@
             text-align: center;
             font-size: 0.9rem;
         }
+        /* ボタンを左右端に配置 */
+        .form-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px; /* ボタン間の間隔を調整 */
+            margin-top: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -113,36 +126,34 @@
         <a th:href="@{/plans/home}">
             <img src="/image/logo.png" alt="ロゴ">
         </a>
-        <h1>ログイン</h1>
+        <h1>ユーザー登録フォーム</h1>
     </div>
 
     <div class="container">
-        <form th:action="@{/authentication}" method="post">
-            <div th:if="${param.error}" class="error-message">
-                <p>ユーザー名またはパスワードが正しくありません。</p>
-            </div>
-            <div th:if="${param.logout}" class="success-message">
-                <p>ログアウトしました。</p>
+        <form action="/login/create" method="post">
+            <div class="form-group">
+                <label for="email" class="form-label">メールアドレス</label>
+                <input type="email" class="form-control" id="email" name="email" required>
             </div>
             <div class="form-group">
-                <label for="email">メールアドレス:</label>
-                <input type="email" id="email" name="email" required>
+                <label for="password" class="form-label">パスワード (8文字以上)</label>
+                <input type="password" class="form-control" id="password" name="password" required>
             </div>
             <div class="form-group">
-                <label for="password">パスワード:</label>
-                <input type="password" id="password" name="password" required>
+                <label for="displayname" class="form-label">ニックネーム</label>
+                <input type="text" class="form-control" id="displayname" name="displayname" required>
             </div>
-            <div class="form-group">
-                <button type="submit" class="btn-login">ログイン</button>
+
+            <!-- ボタンを左右端に配置 -->
+            <div class="form-buttons">
+                <a href="/login" class="btn-back">戻る</a>
+                <button type="submit" class="btn-primary">登録</button>
             </div>
         </form>
-        <div class="signup-link">
-            <p>新規登録は <a th:href="@{/login/entry}">こちら</a> から</p>
-        </div>
     </div>
 
     <div class="footer">
-        <p>© 2024 旅行プランサイト 旅びより　|　利用規約　|　お問い合わせ</p>
+        <p>© 2024 旅行プランサイト 旅びより | 利用規約 | お問い合わせ</p>
     </div>
 </body>
 </html>

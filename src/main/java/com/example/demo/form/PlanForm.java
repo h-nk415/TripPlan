@@ -74,7 +74,7 @@ public class PlanForm {
      */
     private String destination3;
     
-    
+    private Integer usersId;
 
     // startDateをyyyy-MM-ddの文字列で保持するためのフィールド
     private String startDateString;

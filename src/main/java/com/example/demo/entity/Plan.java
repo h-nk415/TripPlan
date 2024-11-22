@@ -17,6 +17,8 @@ import lombok.NoArgsConstructor;
 public class Plan {
 	
 	private List<Schedule> schedules;
+	private List<Item> items;
+	private List<Item> todos;
 	
     /** 
      * 旅行プランのID（主キー）

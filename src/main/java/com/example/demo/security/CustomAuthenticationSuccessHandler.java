@@ -5,6 +5,8 @@ import java.io.IOException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.example.demo.entity.ConnectUser;
 import com.example.demo.entity.User;
@@ -24,21 +26,28 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
-        // Authenticationオブジェクトからemailを取得
-        String email = authentication.getName(); // Spring Securityでは、通常、emailはgetName()に格納される
-        
-        // emailを使って、UserServiceからユーザー情報を取得
-        User user = userService.getUserByEmail(email); // ここでemailでユーザーを取得する
 
-        if (user != null) {
-            // ユーザー情報をConnectUserに静的に保持
-            ConnectUser.id = user.getId();
-            ConnectUser.email = user.getEmail();
-            ConnectUser.password = user.getPassword();
-            ConnectUser.displayname = user.getDisplayname();
+        // セッションからConnectUserを取得
+        ConnectUser connectUser = (ConnectUser) ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+                                        .getRequest().getSession().getAttribute("connectUser");
+
+        if (connectUser == null) {
+            connectUser = new ConnectUser();
         }
 
-        // ログイン後にリダイレクト
-        response.sendRedirect("/plans/home"); // ユーザーがログイン後、/plans/homeにリダイレクト
+        String email = authentication.getName();
+        User user = userService.getUserByEmail(email);
+
+        if (user != null) {
+            connectUser.setId(user.getId());
+            connectUser.setEmail(user.getEmail());
+            connectUser.setPassword(user.getPassword());
+            connectUser.setDisplayname(user.getDisplayname());
+
+            // セッションにConnectUserを保存
+            request.getSession().setAttribute("connectUser", connectUser);
+        }
+
+        response.sendRedirect("/plans/home");
     }
 }
